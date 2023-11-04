@@ -33,7 +33,7 @@ julia> label = set_label(dlr_proc)
 """
 set_label(rnd::Union{CompleteRandomization, RestrictedRandomization}) = @match rnd begin
     r::CRD    => "CRD"
-    #r::TBD    => "TBD"
+    r::TBD    => "TBD"
     #r::PBD    => "PBD($(as_string(r.param)))"
     #r::RAND   => "Rand"
     r::EBCD   => "EBCD($(as_string(r.p)))"
