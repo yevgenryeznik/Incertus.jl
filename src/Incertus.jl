@@ -14,6 +14,7 @@ include("abcd.jl")
 include("crd.jl")
 include("ebcd.jl")
 include("pbd.jl")
+include("rand.jl")
 include("tbd.jl")
 
 include("utils.jl")
@@ -21,7 +22,7 @@ include("utils.jl")
 export CompleteRandomization
 export CRD
 export RestrictedRandomization
-export ABCD, CRD, EBCD, PBD, TBD
+export ABCD, CRD, EBCD, PBD, RAND, TBD
 
 export allocation_prb
 export set_label
