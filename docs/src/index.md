@@ -89,6 +89,30 @@ w = [1, 2, 3, 4]
 crd =  CRD(w)
 ```
 
+## Truncated Binomial Design (TBD)
+
+Treatment assignments are made with probability 0.5 until one of the treatments receives its quota of ``\frac{n}{2}`` subjects; thereafter all remaining assignments are made deterministically to the opposite treatment.
+
+At the ``j^\text{th}``allocation step, let ``N_1`` and ``N_2`` be the numbers of subjects allocated to treatments s.t. ``N_1+N_2 = j-1``. Then,
+
+```math
+\phi_j = \left\{\begin{array}{rl}
+0.5, & \max(N_1, N_2) < \frac{n}{2} \\
+1, & N_1 < N2 \\
+0, & N_1 > N2
+\end{array}\right. ,\: j = 1, \ldots, n.
+```
+
+```@docs
+TBD
+```
+
+`TBD(n)` command initializes a _TBD_ randomization procedure, targeting `1:1` allocation in a trial with a _sample size_ equal to `n`:
+```@repl
+using Incertus
+tbd = TBD(50) # a trial with 50 subjects
+```
+
 ## Efron's Biased Coin Design (EBCD)
 
 At any allocation step, if treatment numbers ``N_1`` and ``N_2`` are balanced, the next assignment is made with probability 0.5; otherwise, the underrepresented treatment is assigned with probability ``p``, where ``0.5 \leq p \leq 1`` is a fixed and pre-specified parameter that determines the trade-off between balance and randomness.
@@ -141,6 +165,10 @@ abcd = ABCD(2) # a procedure with a=2
 
 ```@docs
 allocation_prb(::CRD)
+```
+
+```@docs
+allocation_prb(::TBD, ::Vector{Int64})
 ```
 
 ```@docs
