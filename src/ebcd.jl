@@ -8,15 +8,10 @@ struct EBCD <: RestrictedRandomization
         # getting number of treatments
         ntrt = length(target)
     
-        if ntrt > 2 
-            throw(NotImplementedForMultiArmTrial())
-        elseif !allequal(target) 
-            throw(NotImplementedForUnequalAllocation())
-        elseif !(0.5 <= p <= 1)
-            throw(ParamIsOutOfBounds(:p, 0.5, 1))
-        else
-            return new([1, 1], p)
-        end
+        @assert ntrt == 2 "The procedure isn't implemented for multi-arm trials";
+        @assert allequal(target) "The procedure isn't implemented for unequal allocation";
+
+        return new(target, p)
     end
 end
 EBCD(p::Number) = EBCD([1, 1], p)

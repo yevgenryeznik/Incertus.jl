@@ -50,7 +50,7 @@ using Incertus
 abcd = ABCD(2) # a procedure with a=2
 ```
 
-# Funcions implemented to calculate allocation probability
+# Funcions implemented to calculate allocation probabilities
 
 ```@docs
 allocation_prb(::ABCD, ::Vector{Int64})
