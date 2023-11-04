@@ -89,11 +89,50 @@ w = [1, 2, 3, 4]
 crd =  CRD(w)
 ```
 
+## Permuted Block Design (PBD)
+
+For a _two-arm_ trial and `1:1` _target_ allocation, treatment assignments are made in blocks of size ``b``, where ``b`` is an _even_ number. The probabilities of treatment assignments within each block are changed according the current imbalance in a block.
+
+At the ``j^\text{th}`` allocation step, let ``k`` be a number of the  subject in a current block and ``n_1`` be a number of subjects in a block allocated to treatment 1 (``E``). Then,
+
+```math
+\phi_j = \frac{0.5b-n_1}{b-k+1}, \: j = 1, \ldots, n.
+```
+
+In case of _two-arm_ trial with _unequal_ allocation or _multi-arm_ trial with _equal_/_unequal_ allocation, treatment assignments are made in blocks of size ``b=\lambda W``, where ``W=w_1 + \ldots + w_K`` is a some of elements of vector ``\mathbf{w}``(_target_ allocation vector). ``\lambda`` is the _number of minimal balanced sets in the block of size_
+``b``.
+
+At the ``j^\text{th}`` allocation step, let ``k^{(j-1)} = \left \lfloor \frac{j-1}{b}\right\rfloor`` (``\lfloor x \rfloor`` is a `floor` function that returns the greatest integer less than or equal to ``x``). In essence, ``k^{(j-1)}`` is the number of complete blocks among the first ``j-1`` assignments. Then, the conditional randomization probability for the PBD design is given by **[Zhao and Weng (2011), page 955, equation (5)]**:
+
+```math
+P_k(j) = \frac{w_k\lambda(1+k^{(j-1)})-N_k(j-1)}{b(1+k^{(j-1)})-(j-1)}, k = 1, \ldots, K; \: j = 1, \ldots, n.
+```
+
+```@docs
+PBD
+```
+
+`PBD(b)` command initializes a _permuted block_ randomization procedure with a _block size_ equal to `2b`, targeting `1:1` allocation in a trial:
+```@repl
+using Incertus
+pbd = PBD(1) # a PBD randomization with a block size equal to 2*1 = 2
+pbd = PBD(3) # a PBD randomization with a block size equal to 2*3 = 6
+```
+
+`PBD(w, λ)` command initializes a _permuted block_ randomization procedure with a parameter `λ`, targeting allocation specified by `w`:
+```@repl
+using Incertus # hide
+w = [1, 2, 3, 4]
+pbd =  PBD(w, 1)  # a block size is equal to w[1] + ... + w[end]
+pbd =  PBD(w, 3)  # a block size is equal to 3*(w[1] + ... + w[end])
+```
+
+
 ## Truncated Binomial Design (TBD)
 
 Treatment assignments are made with probability 0.5 until one of the treatments receives its quota of ``\frac{n}{2}`` subjects; thereafter all remaining assignments are made deterministically to the opposite treatment.
 
-At the ``j^\text{th}``allocation step, let ``N_1`` and ``N_2`` be the numbers of subjects allocated to treatments s.t. ``N_1+N_2 = j-1``. Then,
+At the ``j^\text{th}``allocation step, let ``N_1`` and ``N_2`` be the numbers of subjects allocated to treatments s.t. ``N_1+N_2 = j-1.`` Then,
 
 ```math
 \phi_j = \left\{\begin{array}{rl}
@@ -121,7 +160,7 @@ Note that ``p=1`` corresponds to PBD with block size ``b=2``.
 
 ```math
 \phi_j = \left\{\begin{array}{rl}
-0.5, & N_1 == N_2\\
+0.5, & N_1 = N_2\\
 p, & N_1 < N2 \\
 1-p, & N_1 > N2
 \end{array}\right. ,\: j = 1, \ldots, n.
@@ -165,6 +204,10 @@ abcd = ABCD(2) # a procedure with a=2
 
 ```@docs
 allocation_prb(::CRD)
+```
+
+```@docs
+allocation_prb(::PBD, ::Vector{Int64})
 ```
 
 ```@docs
