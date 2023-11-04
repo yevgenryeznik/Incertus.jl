@@ -10,8 +10,10 @@ using Roots
 abstract type RestrictedRandomization end
 
 include("abcd.jl")
+include("ebcd.jl")
 
 export RestrictedRandomization
-export ABCD
+export EBCD, ABCD
+export allocation_prb
 
 end # module Incertus
