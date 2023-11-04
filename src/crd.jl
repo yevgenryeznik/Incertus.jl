@@ -1,6 +1,6 @@
 """A type of randomization, representing _**C**_ompletely _**R**_andomized _**D**_esign (_**CRD**_).
 """
-struct CRD 
+struct CRD <: CompleteRandomization
     target::Vector{<:Number}
     CRD(target::Vector{<:Number}) = new(simplify(target))
 end
