@@ -7,8 +7,9 @@ end
 CRD() = CRD([1, 1])
 
 
-# function calculates allocation probability for Complete Randomization
 """Function calculates allocation probabilities for CRD.
+# Call
+- `allocation_prb(rnd)`
 
 # Arguments
 - `rnd::CRD`: an object, representing Complete Randomization.
