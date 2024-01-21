@@ -16,8 +16,10 @@ struct TBD <: RestrictedRandomization
 end
 TBD(nsbj::Int64) = TBD([1, 1], nsbj)
 
-# function calculates allocation probability for Truncated Binomial Design
+
 """Function calculates allocation probabilities for TBD, given treatment numbers.
+# Call
+- `allocation_prb(rnd, N)`
 
 # Arguments
 - `rnd::TBD`: an object, representing Truncated Binomial Design.
