@@ -93,16 +93,16 @@ crd =  CRD(w)
 
 Treatment assignments are made in blocks of size ``bs`` (for a _two-arm_ trial and `1:1` _target_ allocation, ``bs= 2\lambda``; otherwise, ``bs=\lambda W``, where ``W=w_1 + \ldots + w_K`` is a sum of elements of vector ``\mathbf{w}``, _target_ allocation vector. Here, ``\lambda`` is a parameter of the _PBD_, representing the _number of minimal balanced sets in the block of size_ ``bs``).
 
-At the ``j^\text{th}`` allocation step, let ``k^{(j-1)} = \left \lfloor \frac{j-1}{b}\right\rfloor`` (``\lfloor x \rfloor`` is a `floor` function that returns the greatest integer less than or equal to ``x``). In essence, ``k^{(j-1)}`` is the number of complete blocks among the first ``j-1`` assignments.
+At the ``j^\text{th}`` allocation step, let ``k^{(j-1)} = \left \lfloor \frac{j-1}{bs}\right\rfloor`` (``\lfloor x \rfloor`` is a `floor` function that returns the greatest integer less than or equal to ``x``). In essence, ``k^{(j-1)}`` is the number of complete blocks among the first ``j-1`` assignments.
 
 The probabilities of treatment assignments within each block are changed according the current imbalance in a block:
 
-- For a _two-arm_ trial and `1:1` _target_ allocation,  
+- for a _two-arm_ trial and `1:1` _target_ allocation,  
 ```math
-\phi_j = \frac{0.5*bs(1+k^{(j-1)})-N_1(j-1)}{bs(1+k^{(j-1)})-(j-1)}, \: j = 1, \ldots, n.
+\phi_j = \frac{0.5bs(1+k^{(j-1)})-N_1(j-1)}{bs(1+k^{(j-1)})-(j-1)}, \: j = 1, \ldots, n;
 ```
 
-- For a _two-arm_ trial with _unequal_ allocation or _multi-arm_ trial with _equal_/_unequal_ allocation,
+- for a _two-arm_ trial with _unequal_ allocation or _multi-arm_ trial with _equal_/_unequal_ allocation,
 
 ```math
 P_k(j) = \frac{w_k\lambda(1+k^{(j-1)})-N_k(j-1)}{bs(1+k^{(j-1)})-(j-1)}, k = 1, \ldots, K; \: j = 1, \ldots, n.
@@ -113,7 +113,7 @@ See **[Zhao and Weng (2011), page 955, equation (5)]**
 PBD
 ```
 
-`PBD(b)` command initializes a _permuted block_ randomization procedure with a _block size_ equal to `2b`, targeting `1:1` allocation in a trial:
+`PBD(λ)` command initializes a _permuted block_ randomization procedure with a _block size_ equal to `2λ`, targeting `1:1` allocation in a trial:
 ```@repl
 using Incertus
 pbd = PBD(1) # a PBD randomization with a block size equal to 2*1 = 2
@@ -131,13 +131,19 @@ pbd =  PBD(w, 3)  # a block size is equal to 3*(w[1] + ... + w[end])
 
 ## Random Allocation Rule (Rand)
 
-A version of PBD, when the block size ``bs`` equals to the total sample size ``n``. At the ``j^\text{th}`` allocation step,
+A version of PBD, when the block size ``bs`` equals to the total sample size ``n``. At the ``j^\text{th}`` allocation step, probabilities of treatment assignments are calculated as:
 
+- for a _two-arm_ trial and `1:1` _target_ allocation,  
 ```math
-\phi_j = \frac{0.5n-N_1}{n-j+1}, \: j = 1, \ldots, n,
+\phi_j = \frac{0.5n-N_1(j-1)}{n-(j-1)}, \: j = 1, \ldots, n;
 ```
 
-and ``N_1`` is a number of subject already allocated to the treatment 1 (``E``).
+- for a _two-arm_ trial with _unequal_ allocation or _multi-arm_ trial with _equal_/_unequal_ allocation,
+
+```math
+P_k(j) = \frac{nw_k/W-N_k(j-1)}{n-(j-1)}, k = 1, \ldots, K; \: j = 1, \ldots, n,
+```
+where ``W=w_1 + \ldots + w_K`` is a sum of elements of vector ``\mathbf{w}``, _target_ allocation vector.
 
 ```@docs
 RAND
