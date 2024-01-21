@@ -16,6 +16,7 @@ include("rnd-03-rand.jl")
 include("rnd-04-tbd.jl")
 include("rnd-05-ebcd.jl")
 include("rnd-06-abcd.jl")
+include("rnd-07-gbcd.jl")
 
 
 
