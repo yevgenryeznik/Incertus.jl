@@ -18,7 +18,6 @@ end
 ABCD(a::Number) = ABCD([1, 1], a)
 
 
-# function calculates allocation probability for Adjustable Biased Coin Design
 """Function calculates allocation probabilities for ABCD, given treatment numbers.
 # Call
 - `allocation_prb(rnd, N)`
