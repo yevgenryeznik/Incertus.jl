@@ -27,6 +27,9 @@ function allocation_prb(rnd::RAND, N::Vector{Int64})
     # indicating a current allocation step (current subject's ID)
     j = sum(N) + 1
 
+    # number of treatments
+    ntrt = length(w)
+    
     # if it is a randomization, targeting 1:1 allocation
     if ntrt == 2 && allequal(w)
         # calculating probability of treatment assignment
