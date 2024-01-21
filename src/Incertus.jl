@@ -17,6 +17,7 @@ include("rnd-04-tbd.jl")
 include("rnd-05-ebcd.jl")
 include("rnd-06-abcd.jl")
 include("rnd-07-gbcd.jl")
+include("rnd-08-bsd.jl")
 include("rnd-09-bcdwit.jl")
 
 
@@ -26,7 +27,7 @@ include("utils.jl")
 export CompleteRandomization
 export CRD
 export RestrictedRandomization
-export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BCDWIT
+export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT
 
 export allocation_prb
 export set_label

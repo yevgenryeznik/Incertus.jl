@@ -260,6 +260,32 @@ gbcd = GBCD(2) # a procedure with γ=2
 ```
 
 
+## Big Stick Design (BSD)
+
+An example of maximum tolerated imbalance (MTI) procedures. It makes prediction of the future treatment allocations more difficult (even knowing the current sizes of the treatment groups) and controls treatment imbalance at a predefined threshold throughout the experiment. A general MTI procedure specifies a certain boundary for treatment imbalance, say ``mti``, that cannot be exceeded.
+
+At the ``j^\text{th}`` allocation step, given treatment numbers ``N_1`` and ``N_2``, s.t. ``N_1+N_2 = j-1``, and imbalance ``d = N_1-N_2``,
+
+```math
+\phi_j = \left\{\begin{array}{rl}
+0.5, & |d| < mti \\
+0, & d = mti \\
+1, & d = -mti 
+\end{array}\right. ,\: j = 1, \ldots, n.
+```
+
+```@docs
+BSD
+```
+
+`BSD(mti)` command initializes a randomization procedure with a parameter `mti`, targeting `1:1` allocation in a trial:
+
+```@repl
+using RandomizationTool
+bsd = BSD(3) # a procedure with mti=3
+```
+
+
 ## Biased Coin Design With Imbalance Tolerance (BCDWIT)
 
 A combination of Efron’s BCD and BSD. At the ``j^\text{th}`` allocation step, given treatment numbers ``N_1`` and ``N_2``, s.t. ``N_1+N_2 = j-1``, and imbalance ``d = N_1-N_2``,
@@ -314,6 +340,10 @@ allocation_prb(::ABCD, ::Vector{Int64})
 
 ```@docs
 allocation_prb(::GBCD, ::Vector{Int64})
+```
+
+```@docs
+allocation_prb(::BSD, ::Vector{Int64})
 ```
 
 ```@docs
