@@ -7,7 +7,11 @@ struct GBCD <: RestrictedRandomization
     function GBCD(target::Vector{Int64}, γ::Number)
         # getting number of treatments
         ntrt = length(target)
-    
+        
+        @assert γ >= 0 "The procedures parameter, `γ`, must be non-negative";
+        @assert ntrt == 2 "The procedure isn't implemented for multi-arm trials";
+        @assert allequal(target) "The procedure isn't implemented for unequal allocation";
+
         if ntrt > 2 
             throw(NotImplementedForMultiArmTrial())
         elseif !allequal(target) 
