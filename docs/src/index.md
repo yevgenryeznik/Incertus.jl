@@ -237,6 +237,28 @@ using Incertus
 abcd = ABCD(2) # a procedure with a=2
 ```
 
+## Generalized Biased Coin Design (GBCD)
+
+A generalization of Efron’s BCD. At the ``j^\text{th}`` allocation step, given treatment numbers ``N_1`` and ``N_2``, s.t. ``N_1+N_2 = j-1``, and imbalance ``d = N_1-N_2``,
+
+```math
+\phi_j = \left\{\begin{array}{rl}
+0.5, & j = 1 \\
+\frac{N_2^\gamma}{N_1^\gamma+N_2^\gamma}, & j = 1, \ldots, n.
+\end{array}\right. 
+```
+
+```@docs
+GBCD
+```
+
+`GBCD(γ)` command initializes a randomization procedure with a parameter `γ`, targeting `1:1` allocation in a trial:
+
+```@repl
+using RandomizationTool
+gbcd = GBCD(2) # a procedure with γ=2
+```
+
 # Funcions implemented to calculate allocation probabilities
 
 ```@docs
@@ -256,12 +278,17 @@ allocation_prb(::TBD, ::Vector{Int64})
 ```
 
 ```@docs
+allocation_prb(::EBCD, ::Vector{Int64})
+```
+
+```@docs
 allocation_prb(::ABCD, ::Vector{Int64})
 ```
 
 ```@docs
-allocation_prb(::EBCD, ::Vector{Int64})
+allocation_prb(::GBCD, ::Vector{Int64})
 ```
+
 
 # Auxiliary functions
 
