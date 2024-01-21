@@ -91,21 +91,23 @@ crd =  CRD(w)
 
 ## Permuted Block Design (PBD)
 
-For a _two-arm_ trial and `1:1` _target_ allocation, treatment assignments are made in blocks of size ``bs = 2\times b``, where ``b`` is a _PBD_ parameter. The probabilities of treatment assignments within each block are changed according the current imbalance in a block.
+Treatment assignments are made in blocks of size ``bs`` (for a _two-arm_ trial and `1:1` _target_ allocation, ``bs= 2\lambda``; otherwise, ``bs=\lambda W``, where ``W=w_1 + \ldots + w_K`` is a sum of elements of vector ``\mathbf{w}``, _target_ allocation vector. Here, ``\lambda`` is a parameter of the _PBD_, representing the _number of minimal balanced sets in the block of size_ ``bs``).
 
-At the ``j^\text{th}`` allocation step, let ``k`` be a number of the  subject in a current block and ``n_1`` be a number of subjects in a block allocated to treatment 1 (``E``). Then,
+At the ``j^\text{th}`` allocation step, let ``k^{(j-1)} = \left \lfloor \frac{j-1}{b}\right\rfloor`` (``\lfloor x \rfloor`` is a `floor` function that returns the greatest integer less than or equal to ``x``). In essence, ``k^{(j-1)}`` is the number of complete blocks among the first ``j-1`` assignments.
 
+The probabilities of treatment assignments within each block are changed according the current imbalance in a block:
+
+- For a _two-arm_ trial and `1:1` _target_ allocation,  
 ```math
-\phi_j = \frac{0.5b-n_1}{b-k+1}, \: j = 1, \ldots, n.
+\phi_j = \frac{0.5*bs(1+k^{(j-1)})-N_1(j-1)}{bs(1+k^{(j-1)})-(j-1)}, \: j = 1, \ldots, n.
 ```
 
-In case of _two-arm_ trial with _unequal_ allocation or _multi-arm_ trial with _equal_/_unequal_ allocation, treatment assignments are made in blocks of size ``bs=\lambda W``, where ``W=w_1 + \ldots + w_K`` is a some of elements of vector ``\mathbf{w}``(_target_ allocation vector). ``\lambda`` is the _number of minimal balanced sets in the block of size_ ``bs``.
-
-At the ``j^\text{th}`` allocation step, let ``k^{(j-1)} = \left \lfloor \frac{j-1}{b}\right\rfloor`` (``\lfloor x \rfloor`` is a `floor` function that returns the greatest integer less than or equal to ``x``). In essence, ``k^{(j-1)}`` is the number of complete blocks among the first ``j-1`` assignments. Then, the conditional randomization probability for the PBD design is given by **[Zhao and Weng (2011), page 955, equation (5)]**:
+- For a _two-arm_ trial with _unequal_ allocation or _multi-arm_ trial with _equal_/_unequal_ allocation,
 
 ```math
-P_k(j) = \frac{w_k\lambda(1+k^{(j-1)})-N_k(j-1)}{b(1+k^{(j-1)})-(j-1)}, k = 1, \ldots, K; \: j = 1, \ldots, n.
+P_k(j) = \frac{w_k\lambda(1+k^{(j-1)})-N_k(j-1)}{bs(1+k^{(j-1)})-(j-1)}, k = 1, \ldots, K; \: j = 1, \ldots, n.
 ```
+See **[Zhao and Weng (2011), page 955, equation (5)]**
 
 ```@docs
 PBD
@@ -147,7 +149,7 @@ using Incertus
 rnd = RAND(50) # a trial with 50 subjects
 ```
 
-`RAND(w, n)` command initializes a _random allocation rule_ randomization procedure with a _sample size_ equal to `n, targeting allocation specified by `w`:
+`RAND(w, n)` command initializes a _random allocation rule_ randomization procedure with a _sample size_ equal to `n`, targeting allocation specified by `w`:
 ```@repl
 using Incertus # hide
 w = [1, 2, 3, 4]
@@ -235,6 +237,10 @@ allocation_prb(::CRD)
 
 ```@docs
 allocation_prb(::PBD, ::Vector{Int64})
+```
+
+```@docs
+allocation_prb(::RAND, ::Vector{Int64})
 ```
 
 ```@docs
