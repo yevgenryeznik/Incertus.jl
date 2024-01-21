@@ -10,12 +10,14 @@ using Roots
 abstract type CompleteRandomization end
 abstract type RestrictedRandomization end
 
+include("rnd-01-crd.jl")
+include("rnd-02-pbd.jl")
+include("rnd-03-rand.jl")
+include("rnd-04-tbd.jl")
+include("rnd-05-ebcd.jl")
 include("abcd.jl")
-include("crd.jl")
-include("ebcd.jl")
-include("pbd.jl")
-include("rand.jl")
-include("tbd.jl")
+
+
 
 include("utils.jl")
 
