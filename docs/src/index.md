@@ -259,6 +259,33 @@ using RandomizationTool
 gbcd = GBCD(2) # a procedure with γ=2
 ```
 
+
+## Biased Coin Design With Imbalance Tolerance (BCDWIT)
+
+A combination of Efron’s BCD and BSD. At the ``j^\text{th}`` allocation step, given treatment numbers ``N_1`` and ``N_2``, s.t. ``N_1+N_2 = j-1``, and imbalance ``d = N_1-N_2``,
+
+```math
+\phi_j = \left\{\begin{array}{rl}
+0.5, & |d| < mti\: \& \: d = 0 \\
+p, & |d| < mti \: \& \: d < 0 \\
+1-p, & |d| < mti \: \& \: d > 0 \\
+0, & d = mti \\
+1, & d = -mti 
+\end{array}\right. ,\: j = 1, \ldots, n.
+```
+
+```@docs
+BCDWIT
+```
+
+`BCDWIT(p, mti)` command initializes a randomization procedure with parameters `p` and `mti`, targeting `1:1` allocation in a trial:
+
+```@repl
+using RandomizationTool
+bcdwit = BCDWIT(2//3, 3) # a procedure with p = 2/3 and mti=3
+```
+
+
 # Funcions implemented to calculate allocation probabilities
 
 ```@docs
@@ -289,6 +316,9 @@ allocation_prb(::ABCD, ::Vector{Int64})
 allocation_prb(::GBCD, ::Vector{Int64})
 ```
 
+```@docs
+allocation_prb(::BCDWIT, ::Vector{Int64})
+```
 
 # Auxiliary functions
 
