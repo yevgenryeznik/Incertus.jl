@@ -8,6 +8,7 @@ struct EBCD <: RestrictedRandomization
         # getting number of treatments
         ntrt = length(target)
     
+        @assert 0.5 <= p <= 1 "The procedures parameter, `p`, must be between 0.5 and 1";
         @assert ntrt == 2 "The procedure isn't implemented for multi-arm trials";
         @assert allequal(target) "The procedure isn't implemented for unequal allocation";
 
@@ -17,8 +18,9 @@ end
 EBCD(p::Number) = EBCD([1, 1], p)
 
 
-# function calculates allocation probability for Efron's Biased Coin Design
 """Function calculates allocation probabilities for EBCD, given treatment numbers.
+# Call
+- `allocation_prb(rnd, N)`
 
 # Arguments
 - `rnd::EBCD`: an object, representing Efron's Biased Coin Design.
@@ -26,7 +28,7 @@ EBCD(p::Number) = EBCD([1, 1], p)
 """
 function allocation_prb(rnd::EBCD, N::Vector{Int64})
     # randomization parameter
-    p = rnd.p    
+    p = Float64(rnd.p)    
 
     # imbalance
     d = N[2] - N[1]
