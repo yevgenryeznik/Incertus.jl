@@ -28,7 +28,7 @@ GBCD(γ::Number) = GBCD([1, 1], γ)
 - `rnd::GBCD`: an object, representing Generalized Biased Coin Design.
 - `N::Vector{Int64}`: a vector of current treatment numbers.
 """
-function calculate_prb(rnd::GBCD, N::Vector{Int64})
+function allocation_prb(rnd::GBCD, N::Vector{Int64})
     # getting a parameter value of the randomization procedure
     γ = rnd.γ
 
