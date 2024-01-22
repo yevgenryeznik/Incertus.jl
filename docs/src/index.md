@@ -395,6 +395,14 @@ SimulatedRandomization
 simulate(rnd::Union{CompleteRandomization, RestrictedRandomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
 ```
 
+# Operational characteristics
+
+## Expected absolute imbalance
+```@docs
+calc_expected_abs_imb(sr::SimulatedRandomization)
+```
+
+
 # Auxiliary functions
 
 ```@docs
