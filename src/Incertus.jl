@@ -6,6 +6,7 @@ using Plots
 using ProgressMeter
 using Random: seed!
 using Roots
+using Statistics
  
 abstract type CompleteRandomization end
 abstract type RestrictedRandomization end
@@ -23,6 +24,7 @@ include("rnd-10-bud.jl")
 include("rnd-11-eud.jl")
 
 include("simulation.jl")
+include("op-01-imb.jl")
 include("utils.jl")
 
 export CompleteRandomization
@@ -33,6 +35,9 @@ export SimulatedRandomization
 
 export simulate
 export allocation_prb
+
+export calc_expected_abs_imb
+
 export set_label
 
 end # module Incertus
