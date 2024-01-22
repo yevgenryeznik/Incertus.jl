@@ -23,7 +23,7 @@ struct BUD <: RestrictedRandomization
     end
     
 end
-BUD(λ::Int64) = new([1, 1], λ)
+BUD(λ::Int64) = BUD([1, 1], λ)
 
 """Function calculates allocation probabilities for BUD, given treatment numbers.
 # Call
@@ -35,7 +35,7 @@ BUD(λ::Int64) = new([1, 1], λ)
 """
 function allocation_prb(rnd::BUD, N::Vector{Int64})
     # parameter of the randomization procedure (BUD)
-    λ = rnd.param
+    λ = rnd.λ
 
     # target allocation
     w = rnd.target
