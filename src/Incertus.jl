@@ -4,7 +4,7 @@ using Distributions
 using Match
 using Plots
 using ProgressMeter
-using Random
+using Random: seed!
 using Roots
  
 abstract type CompleteRandomization end
@@ -22,13 +22,16 @@ include("rnd-09-bcdwit.jl")
 include("rnd-10-bud.jl")
 include("rnd-11-eud.jl")
 
+include("simulation.jl")
 include("utils.jl")
 
 export CompleteRandomization
 export CRD
 export RestrictedRandomization
 export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD
+export SimulatedRandomization
 
+export simulate
 export allocation_prb
 export set_label
 

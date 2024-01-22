@@ -383,6 +383,17 @@ allocation_prb(::BUD, ::Vector{Int64})
 ```@docs
 allocation_prb(::EUD, ::Vector{Int64})
 ```
+# Simulation
+
+To perform simulations, the following functionality has been implemented:
+
+```@docs
+SimulatedRandomization
+```
+
+```@docs
+simulate(rnd::Inion{CompleteRandomization, RestrictedRandomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+```
 
 # Auxiliary functions
 
