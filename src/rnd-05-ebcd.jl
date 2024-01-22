@@ -1,4 +1,9 @@
 """A type of rectricted randomization, representing _**E**_fron's _**B**_iased _**C**_oin _**D**_esign (_**EBCD**_).
+
+`EBCD(p)` command initializes _Efron's biased coin designt_ randomization procedure, 
+targeting `1:1` allocation in a trial with a _parameter_ equal to ``p``.
+
+An output of the command is an isntance of EBCD.
 """
 struct EBCD <: RestrictedRandomization 
     target::Vector{Int64}

@@ -166,7 +166,6 @@ At the ``j^\text{th}``allocation step, let ``N_1`` and ``N_2`` be the numbers of
 TBD
 ```
 
-
 ```@repl
 using Incertus
 tbd = TBD(50)  # TBD, targeting 1:1 allocation, in a trial with 50 subjects
@@ -192,11 +191,9 @@ Note that ``p=1`` corresponds to PBD with block size ``b=2``.
 EBCD
 ```
 
-`EBCD(p)` command initializes a randomization procedure with a parameter ``p``, targeting `1:1` allocation in a trial:
-
 ```@repl
 using Incertus
-ebcd = EBCD(2//3) # a procedure with p=2/3
+ebcd = EBCD(2//3) # EBCD, targeting 1:1 allocation, with parameter p=2/3
 ```
 
 ## Adjustable Biased Coin Design (ABCD)
