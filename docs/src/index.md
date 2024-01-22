@@ -138,17 +138,13 @@ where ``W=w_1 + \ldots + w_K`` is a sum of elements of vector ``\mathbf{w}``, _t
 RAND
 ```
 
-`RAND(n)` command initializes a randomization procedure, targeting `1:1` allocation in a trial with a _sample size_ equal to `n`:
 ```@repl
 using Incertus
-rnd = RAND(50) # a trial with 50 subjects
-```
 
-`RAND(w, n)` command initializes a _random allocation rule_ randomization procedure with a _sample size_ equal to `n`, targeting allocation specified by `w`:
-```@repl
-using Incertus # hide
+rnd = RAND(50)     # RAND, targeting 1:1 allocation, in a trial with 50 subjects
+
 w = [1, 2, 3, 4]
-rnd =  RAND(w, 50) # a trial with 50 subjects
+rnd =  RAND(w, 50) # RAND, targeting allocation specified by w, in a trial with 50 subjects
 ```
 
 

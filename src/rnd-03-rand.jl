@@ -1,4 +1,12 @@
 """A type of rectricted randomization, representing _**Rand**_om Allocation Rule (_**Rand**_).
+
+`RAND(n)` command initializes a randomization procedure, targeting `1:1` allocation in 
+a trial with a _sample size_ equal to `n`.
+
+`RAND(w, n)` command initializes a randomization procedure, targeting allocation 
+specified by `w` in a trial with a _sample size_ equal to `n`.
+
+An output of both commands is an instance of `RAND`.
 """
 struct RAND <: RestrictedRandomization
     target::Vector{Int64}
