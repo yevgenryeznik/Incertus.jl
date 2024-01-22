@@ -10,15 +10,15 @@ An output of both commands is an instance of `PBD`.
 """
 struct PBD <: RestrictedRandomization 
     target::Vector{Int64}
-    param::Int64
+    λ::Int64
 
-    function PBD(target::Vector{Int64}, param::Int64) 
+    function PBD(target::Vector{Int64}, λ::Int64) 
         @assert eltype(target) == Int64 "The procedure isn't implemented for non-integer target allocation";
 
-        return new(simplify(target), param)
+        return new(simplify(target), λ)
     end
 end
-PBD(param::Int64) = PBD([1, 1], param)
+PBD(param::Int64) = PBD([1, 1], λ)
 
 
 """Function calculates allocation probabilities for PBD, given treatment numbers.
