@@ -16,7 +16,21 @@ struct SimulatedRandomization
     prb::Array{Float64} 
 end
 
+# function used to display simulated randomization output.
+function Base.show(io::IO, sr::SimulatedRandomization)
+    # extracting simulated treatment assignments
+    trt = sr.trt
 
+    # extracting simulated allocaton probabilities 
+    prb = sr.prb
+
+    println(io, "An output of the randomization simulation (`trt`, `prb`)")
+    println(io, "--------------------------------------------------------")
+    println(io, "A simulated treatment assignments (`trt`):")
+    display(trt)
+    println(io, "A simulated allocation probabilities (`prb`):")
+    display(prb) 
+end
 
 
 
