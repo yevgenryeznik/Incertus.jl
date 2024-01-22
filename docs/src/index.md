@@ -234,7 +234,7 @@ GBCD
 
 ```@repl
 using Incertus
-gbcd = GBCD(2) # ABCD, targeting 1:1 allocation, with parameter γ=2
+gbcd = GBCD(2) # GBCD, targeting 1:1 allocation, with parameter γ=2
 ```
 
 
@@ -256,11 +256,9 @@ At the ``j^\text{th}`` allocation step, given treatment numbers ``N_1`` and ``N_
 BSD
 ```
 
-`BSD(mti)` command initializes a randomization procedure with a parameter `mti`, targeting `1:1` allocation in a trial:
-
 ```@repl
 using Incertus
-bsd = BSD(3) # a procedure with mti=3
+bsd = BSD(3) # BSD, targeting 1:1 allocation, with parameter mti=3
 ```
 
 
