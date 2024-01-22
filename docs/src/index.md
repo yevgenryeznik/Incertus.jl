@@ -392,7 +392,7 @@ SimulatedRandomization
 ```
 
 ```@docs
-simulate(rnd::Inion{CompleteRandomization, RestrictedRandomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+simulate(rnd::Union{CompleteRandomization, RestrictedRandomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
 ```
 
 # Auxiliary functions
