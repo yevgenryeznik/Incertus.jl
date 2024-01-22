@@ -34,7 +34,7 @@ function allocation_prb(rnd::PBD, N::Vector{Int64})
     w = rnd.target
 
     # parameter of the randomization procedure
-    λ = rnd.param
+    λ = rnd.λ
 
     # a block size
     bs = λ*sum(w)
