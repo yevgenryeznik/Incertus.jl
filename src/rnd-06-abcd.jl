@@ -1,4 +1,9 @@
 """A type of rectricted randomization, representing _**A**_djustable _**B**_iased _**C**_oin _**D**_esign (_**ABCD**_).
+
+`ABCD(a)` command initializes _adjustable biased coin designt_ randomization procedure, 
+targeting `1:1` allocation in a trial with a _parameter_ equal to ``a``.
+
+An output of the command is an isntance of ABCD.
 """
 struct ABCD <: RestrictedRandomization
     target::Vector{Int64}

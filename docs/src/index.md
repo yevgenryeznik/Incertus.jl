@@ -212,11 +212,9 @@ An extension of Efron’s BCD. At the ``j^\text{th}`` allocation step, given tre
 ABCD
 ```
 
-`ABCD(a)` command initializes a randomization procedure with a parameter ``a``, targeting `1:1` allocation in a trial:
-
 ```@repl
 using Incertus
-abcd = ABCD(2) # a procedure with a=2
+abcd = ABCD(2) # ABCD, targeting 1:1 allocation, with parameter a=2
 ```
 
 ## Generalized Biased Coin Design (GBCD)
