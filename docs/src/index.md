@@ -255,7 +255,7 @@ GBCD
 `GBCD(γ)` command initializes a randomization procedure with a parameter `γ`, targeting `1:1` allocation in a trial:
 
 ```@repl
-using RandomizationTool
+using Incertus
 gbcd = GBCD(2) # a procedure with γ=2
 ```
 
@@ -281,7 +281,7 @@ BSD
 `BSD(mti)` command initializes a randomization procedure with a parameter `mti`, targeting `1:1` allocation in a trial:
 
 ```@repl
-using RandomizationTool
+using Incerus
 bsd = BSD(3) # a procedure with mti=3
 ```
 
@@ -307,8 +307,38 @@ BCDWIT
 `BCDWIT(p, mti)` command initializes a randomization procedure with parameters `p` and `mti`, targeting `1:1` allocation in a trial:
 
 ```@repl
-using RandomizationTool
+using Incertus
 bcdwit = BCDWIT(2//3, 3) # a procedure with p = 2/3 and mti=3
+```
+
+## Block Urn Design (BUD)
+
+This design was proposed by **Zhao and Weng (2011)**, to provide a more random design than the PBD.  Let ``N_k(j-1)`` denote the number of treatment ``k`` assignments among first ``j-1`` subjects, and ``k^{(j-1)}=\min\limits_{1 \leq k \leq K} \left \lfloor \frac{N_k(j-1)}{w_k}\right \rfloor`` denote the number of minimal balanced sets among the first ``j-1`` assignments. Then, at the ``j^\text{th}`` allocation step, probabilities of treatment assignments are calculated as:
+
+- for a _two-arm_ trial and `1:1` _target_ allocation,  
+```math
+\phi_j = \frac{\lambda+\min(N_1(j-1), N_2(j-1))-N_1(j-1)}{2(\lambda+\min(N_1(j-1), N_2(j-1)))-(j-1)}, \: j = 1, \ldots, n;
+```
+
+- for a _two-arm_ trial with _unequal_ allocation or _multi-arm_ trial with _equal_/_unequal_ allocation,
+
+```math
+P_k(j) = \frac{w_k(\lambda+k^{(j-1)})-N_k(j-1)}{W(\lambda+k^{(j-1)})-(j-1)}, k = 1, \ldots, K; \: j = 1, \ldots, n,
+```
+
+where ``W=w_1 + \ldots + w_K`` is a sum of elements of vector ``\mathbf{w}``, _target_ allocation vector.
+
+See **[Zhao and Weng (2011), page 955, equation (2)]**.
+
+```@docs
+BUD
+```
+
+```@repl
+using Incertus
+w = [1, 2, 3, 4]
+bud =  BUD(w, 1)  # a block size is equal to w[1] + ... + w[end]
+bud =  BUD(w, 3)  # a block size is equal to 3*(w[1] + ... + w[end])
 ```
 
 
@@ -349,6 +379,11 @@ allocation_prb(::BSD, ::Vector{Int64})
 ```@docs
 allocation_prb(::BCDWIT, ::Vector{Int64})
 ```
+
+```@docs
+allocation_prb(::BUD, ::Vector{Int64})
+```
+
 
 # Auxiliary functions
 
