@@ -1,15 +1,11 @@
 """A type of rectricted randomzation, representing _**B**_lock _**U**_rn _**D**_esign (_**BUD**_).
 
-A command `BUD(w, λ)` initializes a randomization procedure.
+`BUD(λ)` command initializes _block urn desin_ with parameter ``λ``, targeting `1:1` allocation.
 
-# Input
-- An input `w` represents the target allocation ratio and has a type `Vector{Int64}`.
-- An integer number `λ` (``> 0``) is a parameter of the randomization procedure.
+`BUD(w, λ)` command initializes _block urn desin_ with a parameter ``λ``, targeting 
+allocation specified by `w`.
 
-# Output
-- An instance of `BUD`.
-
-A command `BUD(λ)` initializes a randomization procedure, targeting 1:1 allocation.
+An output of both commands is an instance of `BUD`.
 """
 struct BUD <: RestrictedRandomization
     target::Vector{Int64}

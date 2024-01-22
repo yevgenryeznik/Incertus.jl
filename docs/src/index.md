@@ -311,10 +311,10 @@ BUD
 ```@repl
 using Incertus
 
-bud = BUD(2)      # randomization procedure, targeting 1:1 allocation (λ=2)
+bud = BUD(2)      # BUD, targeting 1:1 allocation (λ=2)
 
 w = [1, 2, 3, 4]
-bud =  BUD(w, 2)  # randomization procedure, targeting allocation specified by w (λ=2)
+bud =  BUD(w, 2)  # BUD, targeting allocation specified by w (λ=2)
 ```
 
 
