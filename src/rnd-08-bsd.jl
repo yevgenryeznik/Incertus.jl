@@ -1,7 +1,7 @@
 """A type of rectricted randomization, representing _**B**_ig _**S**_tick _**D**_esign (_**BSD**_).
 
-`BSD(mti)` command initializes _big stick design_ randomization procedure, 
-targeting `1:1` allocation in a trial with a _parameter_ equal to ``mti``.
+`BSD(mti)` command initializes _big stick design_ with a parameter equal to `mti`, 
+targeting `1:1` allocation.
 
 An output of the command is an isntance of BSD.
 """

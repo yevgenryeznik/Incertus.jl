@@ -1,6 +1,6 @@
 """A type of rectricted randomzation, representing _**E**_hrenfest _**U**_rn _**D**_esign (_**BUD**_).
 
-`EUD(mti)` command initializes _Ehrenfest's urn design_ with parameter ``mti``, 
+`EUD(mti)` command initializes _Ehrenfest's urn design_ with a parameter equal to ``mti``, 
 targeting `1:1` allocation.
 
 An output of the command is an isntance of EUD.

@@ -1,7 +1,7 @@
 """A type of rectricted randomization, representing _**E**_fron's _**B**_iased _**C**_oin _**D**_esign (_**EBCD**_).
 
-`EBCD(p)` command initializes _Efron's biased coin design_ randomization procedure, 
-targeting `1:1` allocation in a trial with a _parameter_ equal to ``p``.
+`EBCD(p)` command initializes _Efron's biased coin design_ with a parameter equal to `p`,
+targeting `1:1` allocation.
 
 An output of the command is an isntance of EBCD.
 """

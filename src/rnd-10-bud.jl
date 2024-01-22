@@ -1,9 +1,10 @@
 """A type of rectricted randomzation, representing _**B**_lock _**U**_rn _**D**_esign (_**BUD**_).
 
-`BUD(λ)` command initializes _block urn desin_ with parameter ``λ``, targeting `1:1` allocation.
+`BUD(λ)` command initializes _block urn desin_ with a parameter equal to ``λ``, 
+targeting `1:1` allocation.
 
-`BUD(w, λ)` command initializes _block urn desin_ with a parameter ``λ``, targeting 
-allocation specified by `w`.
+`BUD(w, λ)` command initializes _block urn desin_ with a parameter equal to ``λ``, 
+targeting allocation specified by `w`.
 
 An output of both commands is an instance of `BUD`.
 """

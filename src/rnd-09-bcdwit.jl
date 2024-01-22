@@ -2,7 +2,7 @@
 _**W**_ith _**I**_mbalance _**T**_olerance (_**BCDWIT**_).
 
 `BCDWIT(p, mti)` command initializes _biased coin design with imbalance tolerance_ 
-with _parameters_ ``p`` and ``mti``, targeting `1:1` allocation.
+with _parameters_ equal to `p` and `mti`, targeting `1:1` allocation.
 
 An output of the command is an isntance of BCDWIT.
 """

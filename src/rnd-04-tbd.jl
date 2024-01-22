@@ -1,7 +1,7 @@
 """A type of rectricted randomization, representing _**T**_runcated _**B**_inomial _**D**_esign (_**TBD**_).
 
-`TBD(n)` command initializes a _truncated binomial design_ randomization procedure, 
-targeting `1:1` allocation in a trial with a _sample size_ equal to `n`.
+`TBD(n)` command initializes a _truncated binomial design_, targeting `1:1` allocation 
+in a trial with a _sample size_ equal to `n`.
 
 An output of the command is an isntance of TBD.
 """

@@ -1,7 +1,7 @@
 """A type of rectricted randomization, representing _**G**_eneralized _**B**_iased _**C**_oin _**D**_esign (_**GBCD**_).
 
-`GBCD(γ)` command initializes _generalized biased coin design_ randomization procedure, 
-targeting `1:1` allocation in a trial with a _parameter_ equal to ``γ``.
+`GBCD(γ)` command initializes _generalized biased coin design_ with a parameter equal to `γ`, 
+targeting `1:1` allocation.
 
 An output of the command is an isntance of GBCD."""
 struct GBCD <: RestrictedRandomization 

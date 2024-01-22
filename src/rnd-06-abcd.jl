@@ -1,7 +1,7 @@
 """A type of rectricted randomization, representing _**A**_djustable _**B**_iased _**C**_oin _**D**_esign (_**ABCD**_).
 
-`ABCD(a)` command initializes _adjustable biased coin design_ randomization procedure, 
-targeting `1:1` allocation in a trial with a _parameter_ equal to ``a``.
+`ABCD(a)` command initializes _adjustable biased coin design_ with a parameter equal to `a`, 
+targeting `1:1` allocation.
 
 An output of the command is an isntance of ABCD.
 """
