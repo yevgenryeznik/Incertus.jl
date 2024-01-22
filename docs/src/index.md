@@ -281,7 +281,7 @@ BSD
 `BSD(mti)` command initializes a randomization procedure with a parameter `mti`, targeting `1:1` allocation in a trial:
 
 ```@repl
-using Incerus
+using Incertus
 bsd = BSD(3) # a procedure with mti=3
 ```
 
@@ -328,7 +328,7 @@ P_k(j) = \frac{w_k(\lambda+k^{(j-1)})-N_k(j-1)}{W(\lambda+k^{(j-1)})-(j-1)}, k =
 
 where ``W=w_1 + \ldots + w_K`` is a sum of elements of vector ``\mathbf{w}``, _target_ allocation vector.
 
-See **[Zhao and Weng (2011), page 955, equation (2)]**.
+See **[Zhao and Weng (2011), page 955, equations (2) and (3)]**.
 
 ```@docs
 BUD
@@ -336,9 +336,31 @@ BUD
 
 ```@repl
 using Incertus
+
+bud = BUD(2)      # randomization procedure, targeting 1:1 allocation (λ=2)
+
 w = [1, 2, 3, 4]
-bud =  BUD(w, 1)  # a block size is equal to w[1] + ... + w[end]
-bud =  BUD(w, 3)  # a block size is equal to 3*(w[1] + ... + w[end])
+bud =  BUD(w, 2)  # randomization procedure, targeting allocation specified by w (λ=2)
+```
+
+
+## Ehrenfest Urn Design (EUD)
+
+Another example of the maximum tolerated imbalance (MTI) procedure. At the ``j^\text{th}`` allocation step, given treatment numbers ``N_1`` and ``N_2``, s.t. ``N_1+N_2 = j-1``, and imbalance ``d = N_1-N_2``,
+
+```math
+\phi_j = \frac{1}{2}\left(1-\frac{d}{mti}\right) ,\: j = 1, \ldots, n,
+```
+
+where ``mti`` (``>0``) is a parameter of the procedure.
+
+```@docs
+EUD
+```
+
+```@repl
+using Incertus
+eud = EUD(2) # a procedure with mti=2
 ```
 
 
@@ -384,6 +406,9 @@ allocation_prb(::BCDWIT, ::Vector{Int64})
 allocation_prb(::BUD, ::Vector{Int64})
 ```
 
+```@docs
+allocation_prb(::EUD, ::Vector{Int64})
+```
 
 # Auxiliary functions
 

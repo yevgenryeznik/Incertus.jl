@@ -28,7 +28,7 @@ include("utils.jl")
 export CompleteRandomization
 export CRD
 export RestrictedRandomization
-export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD
+export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD
 
 export allocation_prb
 export set_label
