@@ -18,7 +18,7 @@ struct PBD <: RestrictedRandomization
         return new(simplify(target), λ)
     end
 end
-PBD(param::Int64) = PBD([1, 1], λ)
+PBD(λ::Int64) = PBD([1, 1], λ)
 
 
 """Function calculates allocation probabilities for PBD, given treatment numbers.
