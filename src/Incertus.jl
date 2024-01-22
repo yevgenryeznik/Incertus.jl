@@ -2,10 +2,10 @@ module Incertus
 
 using Distributions
 using Match
-using Plots
 using ProgressMeter
 using Random: seed!
 using Roots
+using StatsPlots
 using Statistics
  
 abstract type CompleteRandomization end
