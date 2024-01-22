@@ -36,7 +36,7 @@ function allocation_prb(rnd::EBCD, N::Vector{Int64})
     p = Float64(rnd.p)    
 
     # imbalance
-    d = N[2] - N[1]
+    d = N[1] - N[2]
 
     # probability of treatment assignment
     return d == 0 ? 0.5 : (d < 0 ? p : 1-p)
