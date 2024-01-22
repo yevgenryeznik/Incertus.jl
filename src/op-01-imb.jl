@@ -11,7 +11,7 @@ end
 `calc_expected_abs_imb(sr)`
 
 # Arguments
-- sr::SimulatedRandomization: an instance of `SimulatedRandomization`, an object, 
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
 representing simulation output.
 
 # Result
