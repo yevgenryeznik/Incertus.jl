@@ -34,7 +34,7 @@ a randomization procedure to be simulated, an instance of `CompleteRandomization
 # Result
 - an object, representing simlated randomization, an instance of `Simulatedrandomization`.
 """
-function simulate(rnd::Union{CRD, RestrictedRandomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+function simulate(rnd::Union{CompleteRandomization, RestrictedRandomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
     # setting random seed (for reproducibility)
     seed!(seed)
 
