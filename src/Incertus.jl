@@ -43,4 +43,7 @@ export calc_cummean_loss
 
 export set_label
 
+export plot
+export @df
+
 end # module Incertus
