@@ -1,4 +1,12 @@
 """A type of rectricted randomization, representing _**P**_ermuted _**B**_lock _**D**_esign (_**PBD**_).
+
+`PBD(λ)` command initializes a _permuted block_ randomization procedure with a _block size_ 
+equal to `2λ`, targeting `1:1` allocation in a trial.
+
+`PBD(w, λ)` command initializes a _permuted block_ randomization procedure with a parameter `λ`, 
+targeting allocation specified by `w`; block size equals to `λ*sum(w)`.
+
+An output of both commands is an instance of `PBD`.
 """
 struct PBD <: RestrictedRandomization 
     target::Vector{Int64}

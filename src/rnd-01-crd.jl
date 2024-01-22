@@ -3,6 +3,8 @@
 `CRD()` command initializes a complete randomization procedure, targeting `1:1` allocation.
 
 `CRD(w)` command initializes a complete randomization procedure, targeting allocation specified by `w`.
+
+An output of both commands is an instance of `CRD`.
 """
 struct CRD <: CompleteRandomization
     target::Vector{<:Number}

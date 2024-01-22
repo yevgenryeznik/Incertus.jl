@@ -107,19 +107,14 @@ See **[Zhao and Weng (2011), page 955, equation (5)]**
 PBD
 ```
 
-`PBD(λ)` command initializes a _permuted block_ randomization procedure with a _block size_ equal to `2λ`, targeting `1:1` allocation in a trial:
 ```@repl
 using Incertus
-pbd = PBD(1) # a PBD randomization with a block size equal to 2*1 = 2
-pbd = PBD(3) # a PBD randomization with a block size equal to 2*3 = 6
-```
+pbd = PBD(1)      # PBD, targeting 1:1 allocation, with a block size equal to 2*1 = 2
+pbd = PBD(3)      # PBD, targeting 1:1 allocation, with a block size equal to 2*3 = 6
 
-`PBD(w, λ)` command initializes a _permuted block_ randomization procedure with a parameter `λ`, targeting allocation specified by `w`:
-```@repl
-using Incertus # hide
 w = [1, 2, 3, 4]
-pbd =  PBD(w, 1)  # a block size is equal to w[1] + ... + w[end]
-pbd =  PBD(w, 3)  # a block size is equal to 3*(w[1] + ... + w[end])
+pbd =  PBD(w, 1)  # PBD, targeting allocation specified by w, with a block size sum(w)
+pbd =  PBD(w, 3)  # PBD, targeting allocation specified by w, with a block size 3*sum(w)
 ```
 
 
