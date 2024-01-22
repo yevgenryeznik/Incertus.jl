@@ -397,9 +397,38 @@ simulate(rnd::Union{CompleteRandomization, RestrictedRandomization}, nsbj::Int64
 
 # Operational characteristics
 
+Several measures of imbalance and randomness have been implemented in the package:
+
+- Measures of imbalance:
+    + ``\mathbf{E}\left[|D(j)|\right]`` -- expected absolute imbalance at the ``j^\text{th}`` allocation step.
+    + ``\mathbf{E}\left[|D(j)|^2\right]=\mathbf{var}\left[D(j)\right]`` -- variance of imbalance at the ``j^\text{th}`` allocation step.
+    + ``\mathbf{E}\left[\max\limits_{1\leq m \leq j}|D(m)|\right]`` -- expected maximum imbalance over the first ``j`` allocation steps.
+    + ``Imb(j) = \frac{1}{j}\sum\limits_{m=1}^j\frac{\mathbf{E}\left[|D(m)|^2\right]}{m}`` -- a cumulative average loss at the ``j^\text{th}`` allocation step.
+
+Below, there are  functions available for calculating operational characteristics.
+
 ## Expected absolute imbalance
+
 ```@docs
 calc_expected_abs_imb(sr::SimulatedRandomization)
+```
+
+## Variance of imbalance
+
+```@docs
+calc_variance_of_imb(sr::SimulatedRandomization)
+```
+
+## Expected maximum imbalance over first allocation steps
+
+```@docs
+calc_expected_max_abs_imb(sr::SimulatedRandomization)
+```
+
+## Expected maximum imbalance over first allocation steps
+
+```@docs
+calc_cummean_loss(sr::SimulatedRandomization)
 ```
 
 

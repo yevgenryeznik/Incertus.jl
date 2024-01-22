@@ -5,7 +5,7 @@ function calc_imb(δ::Vector{Int64})
 end
 
 
-"""Function used to calculate expected absolute imbalance vs. allocation step.
+"""Function calculates expected absolute imbalance vs. allocation step.
 
 # Call
 `calc_expected_abs_imb(sr)`
@@ -30,6 +30,19 @@ function calc_expected_abs_imb(sr::SimulatedRandomization)
     return vec(expected_abs_imb)
 end
 
+
+"""Function calculates variance of imbalance vs. allocation step.
+
+# Call
+`calc_variance_of_imb(sr)`
+
+# Arguments
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
+representing simulation output.
+
+# Result
+- A vector of _variance of imbalance_ values summarized via simulations.
+"""
 function calc_variance_of_imb(sr::SimulatedRandomization)
     trt = sr.trt
     ntrt = maximum(2)
@@ -44,6 +57,19 @@ function calc_variance_of_imb(sr::SimulatedRandomization)
     return vec(variance_of_imb)
 end
 
+
+"""Function calculates expected maximum absolute imbalance over first allocations vs. allocation step.
+
+# Call
+`calc_expected_max_abs_imb(sr)`
+
+# Arguments
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
+representing simulation output.
+
+# Result
+- A vector of _expected maximum absolute imbalance over firat allocations_ values summarized via simulations.
+"""
 function calc_expected_max_abs_imb(sr::SimulatedRandomization)
     trt = sr.trt
     ntrt = maximum(2)
@@ -63,6 +89,19 @@ function calc_expected_max_abs_imb(sr::SimulatedRandomization)
     return vec(expected_max_abs_imb)
 end
 
+
+"""Function calculates cumulative average loss vs. allocation step.
+
+# Call
+`calc_expected_abs_imb(sr)`
+
+# Arguments
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
+representing simulation output.
+
+# Result
+- A vector of _cumulative average loss_ values summarized via simulations.
+"""
 function calc_cummean_loss(sr::SimulatedRandomization)
     
     variance_of_imb = calc_variance_of_imb(sr)

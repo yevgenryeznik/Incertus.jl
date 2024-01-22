@@ -37,6 +37,9 @@ export simulate
 export allocation_prb
 
 export calc_expected_abs_imb
+export calc_variance_of_imb
+export calc_expected_max_abs_imb
+export calc_cummean_loss
 
 export set_label
 
