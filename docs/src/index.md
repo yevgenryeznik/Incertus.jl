@@ -232,11 +232,9 @@ A generalization of Efron’s BCD. At the ``j^\text{th}`` allocation step, given
 GBCD
 ```
 
-`GBCD(γ)` command initializes a randomization procedure with a parameter `γ`, targeting `1:1` allocation in a trial:
-
 ```@repl
 using Incertus
-gbcd = GBCD(2) # a procedure with γ=2
+gbcd = GBCD(2) # ABCD, targeting 1:1 allocation, with parameter γ=2
 ```
 
 
