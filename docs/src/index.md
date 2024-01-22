@@ -334,7 +334,7 @@ EUD
 
 ```@repl
 using Incertus
-eud = EUD(2) # a procedure with mti=2
+eud = EUD(2) # EUD, targeting 1:1 allocation (mti=2)
 ```
 
 

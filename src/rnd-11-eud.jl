@@ -1,12 +1,9 @@
 """A type of rectricted randomzation, representing _**E**_hrenfest _**U**_rn _**D**_esign (_**BUD**_).
 
-A command `EUD(mti)` initializes a randomization procedure.
+`EUD(mti)` command initializes _Ehrenfest's urn design_ with parameter ``mti``, 
+targeting `1:1` allocation.
 
-# Input
-- An integer number `mti` (``> 0``) is a parameter of the randomization procedure.
-
-# Output
-- An instance of `EUD`.
+An output of the command is an isntance of EUD.
 """
 struct EUD <: RestrictedRandomization
     target::Vector{Int64}
