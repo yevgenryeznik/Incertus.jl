@@ -280,11 +280,9 @@ p, & |d| < mti \: \& \: d < 0 \\
 BCDWIT
 ```
 
-`BCDWIT(p, mti)` command initializes a randomization procedure with parameters `p` and `mti`, targeting `1:1` allocation in a trial:
-
 ```@repl
 using Incertus
-bcdwit = BCDWIT(2//3, 3) # a procedure with p = 2/3 and mti=3
+bcdwit = BCDWIT(2//3, 3) # BCDWIT with p = 2/3 and mti=3, targeting 1:1 allocation
 ```
 
 ## Block Urn Design (BUD)
