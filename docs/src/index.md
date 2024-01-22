@@ -166,10 +166,10 @@ At the ``j^\text{th}``allocation step, let ``N_1`` and ``N_2`` be the numbers of
 TBD
 ```
 
-`TBD(n)` command initializes a _TBD_ randomization procedure, targeting `1:1` allocation in a trial with a _sample size_ equal to `n`:
+
 ```@repl
 using Incertus
-tbd = TBD(50) # a trial with 50 subjects
+tbd = TBD(50)  # TBD, targeting 1:1 allocation, in a trial with 50 subjects
 ```
 
 ## Efron's Biased Coin Design (EBCD)
