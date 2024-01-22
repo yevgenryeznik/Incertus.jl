@@ -1,4 +1,8 @@
 """A type of randomization, representing _**C**_ompletely _**R**_andomized _**D**_esign (_**CRD**_).
+
+`CRD()` command initializes a complete randomization procedure, targeting `1:1` allocation.
+
+`CRD(w)` command initializes a complete randomization procedure, targeting allocation specified by `w`.
 """
 struct CRD <: CompleteRandomization
     target::Vector{<:Number}

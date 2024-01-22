@@ -75,18 +75,12 @@ P_k(j) = \rho_k, \: k = 1, \ldots, K; \: j = 1, \ldots, n.
 CRD
 ```
 
-`CRD()` command initializes a _complete_ randomization procedure, targeting `1:1` allocation:
-
 ```@repl
 using Incertus
-crd =  CRD()
-```
+crd =  CRD()     # complete randomization, targeting 1:1 allocation
 
-`CRD(w)` command initializes a _complete_ randomization procedure, targeting allocation specified by `w`:
-```@repl
-using Incertus # hide
 w = [1, 2, 3, 4]
-crd =  CRD(w)
+crd =  CRD(w)    # complete randomization, targeting allocation specified by w
 ```
 
 ## Permuted Block Design (PBD)
