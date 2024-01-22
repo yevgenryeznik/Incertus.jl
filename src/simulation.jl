@@ -66,5 +66,5 @@ function simulate(rnd::Union{CompleteRandomization, RestrictedRandomization}, ns
         end
     end
 
-    return trt, prb
+    return SimulatedRandomization(trt, prb)
 end
