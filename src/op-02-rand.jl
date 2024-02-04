@@ -1,9 +1,10 @@
 # calculating correct guess probability under the convergence guessing strategy
 function calc_guess_cgs(δ::Vector{Int64})
     imb = [0; 2 .* cumsum(δ[1:end-1]) - eachindex(δ[1:end-1])]
-    guess = [0.5*(1-sign(item)) for item in imb]
+    G = [0.5*(1-sign(item)) for item in imb]
+    guess = [rand(Binomial(p, 1)) for o in G]
 
-    return(guess)
+    return(Int.(guess .== δ))
 end
 
 
