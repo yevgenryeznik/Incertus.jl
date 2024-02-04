@@ -405,6 +405,9 @@ Several measures of imbalance and randomness have been implemented in the packag
     + ``\mathbf{E}\left[\max\limits_{1\leq m \leq j}|D(m)|\right]`` -- expected maximum imbalance over the first ``j`` allocation steps.
     + ``Imb(j) = \frac{1}{j}\sum\limits_{m=1}^j\frac{\mathbf{E}\left[|D(m)|^2\right]}{m}`` -- a cumulative average loss at the ``j^\text{th}`` allocation step.
 
+- Measures of randomness:
+    + ``EPCG_{conv}(j) = \frac{1}{j}\sum\limits_{m=1}^j\mathbf{E}\left[G_m\right]`` -- expected proportion of correct guesses over first ``j`` allocation steps under the _convergence_ guessing strategy. ``G_m`` is a random variable taking values 1; 0.5; or 0 if the investigator's guess on the ``m^\text{th}`` treatment assignment in the sequence is correct; is made at random (with probability 0.5); or is incorrect. The investigator's guessing strategy on the upcoming treatment allocation ``\delta{δ}_m`` depends only on the sign of current imbalance ``D(m-1)``: guess the ``m^\text{th}`` treatment assignment as ``E``, if ``D(m-1)<0``; as ``C``, if ``D(m-1)>0``; or make a random guess (with probability 0.5), if ``D(m-1)=0``.
+
 Below, there are  functions available for calculating operational characteristics.
 
 ## Expected absolute imbalance
@@ -431,6 +434,23 @@ calc_expected_max_abs_imb(sr::SimulatedRandomization)
 calc_cummean_loss(sr::SimulatedRandomization)
 ```
 
+## Expected proportion of correct guesses over first allocation steps under the _convergence_ guessing strategy 
+
+```@docs
+calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
+```
+
+## Expected proportion of deterministic assignments over first allocation steps
+
+```@docs
+calc_cummean_pda(sr::SimulatedRandomization)
+```
+
+## Forcing index
+
+```@docs
+calc_fi(sr::SimulatedRandomization)
+```
 
 # Auxiliary functions
 
