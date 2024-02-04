@@ -111,7 +111,7 @@ function calc_fi(sr::SimulatedRandomization)
         prb = hcat([prb[:, 1, s] for s in axes(prb, 3)]...) 
     end
 
-    fi1 = hcat([abs(prb[:, s] .- 0.5) for s in axes(prb, 2)]...)
+    fi1 = hcat([abs.(prb[:, s] .- 0.5) for s in axes(prb, 2)]...)
     
     efi1 = vec(mean(fi1, dims = 2))
     sbj = eachindex(efi1)
