@@ -462,7 +462,7 @@ calc_expected_max_abs_imb(sr::SimulatedRandomization)
 calc_cummean_loss(sr::SimulatedRandomization)
 ```
 
-## Expected proportion of correct guesses over first allocation steps under the _convergence_ guessing strategy 
+## Expected proportion of correct guesses over first allocation steps under _two_ different guessing strategies 
 
 ```@docs
 calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
