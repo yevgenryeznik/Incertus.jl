@@ -44,6 +44,7 @@ function calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
     ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
+        prb = hcat([prb[:, 1, s] for s in axes(prb, 3)]...) 
     end
 
     pcg = gs == "C" ? 
@@ -76,6 +77,7 @@ function calc_cummean_pda(sr::SimulatedRandomization)
     ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
+        prb = hcat([prb[:, 1, s] for s in axes(prb, 3)]...) 
     end
 
     da = hcat([calc_da(prb[:, s]) for s in axes(prb, 2)]...)
@@ -106,6 +108,7 @@ function calc_fi(sr::SimulatedRandomization)
     ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
+        prb = hcat([prb[:, 1, s] for s in axes(prb, 3)]...) 
     end
 
     fi1 = hcat([abs(prb[:, s]-0.5) for s in axes(prb, 2)]...)
