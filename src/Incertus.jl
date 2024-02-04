@@ -42,6 +42,8 @@ export calc_variance_of_imb
 export calc_expected_max_abs_imb
 export calc_cummean_loss
 export calc_cummean_epcg
+export calc_cummean_pda
+export calc_fi
 export set_label
 
 export plot

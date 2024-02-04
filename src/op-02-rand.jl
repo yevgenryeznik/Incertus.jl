@@ -81,8 +81,38 @@ function calc_cummean_pda(sr::SimulatedRandomization)
     da = hcat([calc_da(prb[:, s]) for s in axes(prb, 2)]...)
     
     pda = vec(mean(da, dims = 2))
-    sbj = eachindex(da)
+    sbj = eachindex(pda)
     cummean_pda = cumsum(pda) ./ sbj
 
     return cummean_pda
+end
+
+
+"""Function calculates forcing index vs. allocation step.
+
+# Call
+`calc_fi(sr)`
+
+# Arguments
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
+representing simulation output.
+
+# Result
+- A vector of the _forcing index_ values summarized via simulations.
+"""
+function calc_fi(sr::SimulatedRandomization)
+    trt = sr.trt
+    prb = sr.prb
+    ntrt = maximum(ntrt)
+    if ntrt == 2
+        trt = 2 .- trt
+    end
+
+    fi1 = hcat([abs(prb[:, s]-0.5) for s in axes(prb, 2)]...)
+    
+    efi1 = vec(mean(fi1, dims = 2))
+    sbj = eachindex(efi1)
+    fi = 4 .* (cumsum(efi1) ./ sbj)
+
+    return fi
 end
