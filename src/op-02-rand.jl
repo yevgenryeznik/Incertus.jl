@@ -41,7 +41,7 @@ function calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
     @assert gs in ["C", "MP"] "`gs` input parameter must have of the values in [\"C\", \"MP\"]"
     trt = sr.trt
     prb = sr.prb
-    ntrt = maximum(ntrt)
+    ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
     end
@@ -73,7 +73,7 @@ representing simulation output.
 function calc_cummean_pda(sr::SimulatedRandomization)
     trt = sr.trt
     prb = sr.prb
-    ntrt = maximum(ntrt)
+    ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
     end
@@ -103,7 +103,7 @@ representing simulation output.
 function calc_fi(sr::SimulatedRandomization)
     trt = sr.trt
     prb = sr.prb
-    ntrt = maximum(ntrt)
+    ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
     end
