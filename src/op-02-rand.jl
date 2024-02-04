@@ -15,6 +15,13 @@ function calc_guess_mpgs(ϕ::Vector{Float64})
 end
 
 
+# calculating deterministic assignments
+function calc_da(ϕ::Vector{Float64})
+    da = [Int(item ∈ [0, 1]) for item in ϕ]
+
+    return(da)
+end
+
 """Function calculates cumulative averages of expected proportions of correct guesses vs. allocation step.
 
 # Call
@@ -43,9 +50,39 @@ function calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
         hcat([calc_guess_cgs(trt[:, s]) for s in axes(trt, 2)]...) :
         hcat([calc_guess_mpgs(prb[:, s]) for s in axes(trt, 2)]...)
     
-    sbj = eachindex(pcg)
-    expected_pcg = vec(mean(abs_imb, dims = 2))
-    cummean_of_epcg = cumsum(expected_pcg) ./ sbj
+    expected_pcg = vec(mean(pcg, dims = 2))
+    sbj = eachindex(expected_pcg)
+    cummean_epcg = cumsum(expected_pcg) ./ sbj
 
-    return cummean_of_epcg
+    return cummean_epcg
+end
+
+
+"""Function calculates cumulative averages of the proportions of deterministic assignments vs. allocation step.
+
+# Call
+`calc_cummean_pda(sr)`
+
+# Arguments
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
+representing simulation output.
+
+# Result
+- A vector of the _cumulative averages of the proportions of deterministic assignmnets_ values summarized via simulations.
+"""
+function calc_cummean_pda(sr::SimulatedRandomization)
+    trt = sr.trt
+    prb = sr.prb
+    ntrt = maximum(ntrt)
+    if ntrt == 2
+        trt = 2 .- trt
+    end
+
+    da = hcat([calc_da(prb[:, s]) for s in axes(prb, 2)]...)
+    
+    pda = vec(mean(da, dims = 2))
+    sbj = eachindex(da)
+    cummean_pda = cumsum(pda) ./ sbj
+
+    return cummean_pda
 end
