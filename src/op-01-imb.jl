@@ -19,7 +19,7 @@ representing simulation output.
 """
 function calc_expected_abs_imb(sr::SimulatedRandomization)
     trt = sr.trt
-    ntrt = maximum(2)
+    ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
     end
@@ -45,7 +45,7 @@ representing simulation output.
 """
 function calc_variance_of_imb(sr::SimulatedRandomization)
     trt = sr.trt
-    ntrt = maximum(2)
+    ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
     end
@@ -72,7 +72,7 @@ representing simulation output.
 """
 function calc_expected_max_abs_imb(sr::SimulatedRandomization)
     trt = sr.trt
-    ntrt = maximum(2)
+    ntrt = maximum(trt)
     if ntrt == 2
         trt = 2 .- trt
     end
