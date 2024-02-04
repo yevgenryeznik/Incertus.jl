@@ -1,26 +1,35 @@
 # calculating correct guess probability under the convergence guessing strategy
 function calc_guess_cgs(δ::Vector{Int64})
+    # calculating imbalance before every allocation step
     imb = [0; 2 .* cumsum(δ[1:end-1]) - eachindex(δ[1:end-1])]
-    G = [0.5*(1-sign(item)) for item in imb]
-    guess = [rand(Binomial(1, p)) for p in G]
 
-    return(Int.(guess .== δ))
+    # making guess, given current imbalance
+    guess = [d == 0 ? rand(Binomial(1, 0.5)) : (d < 0 ? 1 : 0) for d in imb]
+
+    # correct guesses
+    correct_guess = Int.(guess .== δ)
+
+    return(correct_guess)
 end
 
 
 # calculating correct guess probability under the maximum probability guessing strategy
-function calc_guess_mpgs(ϕ::Vector{Float64})
-    guess = [0.5*(1-sign(item-0.5)) for item in ϕ]
+function calc_guess_mpgs(δ::Vector{Int64}, ϕ::Vector{Float64})
+    # making guess, given allocation probability
+    guess = [p == 0.5 ? rand(Binomial(1, 0.5)) : (p > 0.5 ? 1 : 0) for p in ϕ]
 
-    return(guess)
+    # correct guesses
+    correct_guess = Int.(guess .== δ)
+
+    return(correct_guess)
 end
 
 
 # calculating deterministic assignments
 function calc_da(ϕ::Vector{Float64})
-    da = [Int(item ∈ [0, 1]) for item in ϕ]
+    deterministic_assignment = [Int(item ∈ [0, 1]) for item in ϕ]
 
-    return(da)
+    return(deterministic_assignment)
 end
 
 """Function calculates cumulative averages of expected proportions of correct guesses vs. allocation step.
@@ -50,7 +59,7 @@ function calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
 
     pcg = gs == "C" ? 
         hcat([calc_guess_cgs(trt[:, s]) for s in axes(trt, 2)]...) :
-        hcat([calc_guess_mpgs(prb[:, s]) for s in axes(trt, 2)]...)
+        hcat([calc_guess_mpgs(trt[:, s], prb[:, s]) for s in axes(trt, 2)]...)
     
     expected_pcg = vec(mean(pcg, dims = 2))
     sbj = eachindex(expected_pcg)
