@@ -25,6 +25,7 @@ include("rnd-11-eud.jl")
 
 include("simulation.jl")
 include("op-01-imb.jl")
+include("op-02-rand.jl")
 include("utils.jl")
 
 export CompleteRandomization
@@ -40,7 +41,7 @@ export calc_expected_abs_imb
 export calc_variance_of_imb
 export calc_expected_max_abs_imb
 export calc_cummean_loss
-
+export calc_cummean_epcg
 export set_label
 
 export plot
