@@ -406,7 +406,17 @@ Several measures of imbalance and randomness have been implemented in the packag
     + ``Imb(j) = \frac{1}{j}\sum\limits_{m=1}^j\frac{\mathbf{E}\left[|D(m)|^2\right]}{m}`` -- a cumulative average loss at the ``j^\text{th}`` allocation step.
 
 - Measures of randomness:
-    + ``EPCG_{conv}(j) = \frac{1}{j}\sum\limits_{m=1}^j\mathbf{E}\left[G_m\right]`` -- expected proportion of correct guesses over first ``j`` allocation steps under the _convergence_ guessing strategy. ``G_m`` is a random variable taking values 1; 0.5; or 0 if the investigator's guess on the ``m^\text{th}`` treatment assignment in the sequence is correct; is made at random (with probability 0.5); or is incorrect. The investigator's guessing strategy on the upcoming treatment allocation ``\delta{δ}_m`` depends only on the sign of current imbalance ``D(m-1)``: guess the ``m^\text{th}`` treatment assignment as ``E``, if ``D(m-1)<0``; as ``C``, if ``D(m-1)>0``; or make a random guess (with probability 0.5), if ``D(m-1)=0``.
+    + ``EPCG_{conv}(j) = \frac{1}{j}\sum\limits_{m=1}^j\mathbf{E}\left[G_m\right]`` -- expected proportion of correct guesses over first ``j`` allocation steps under the _convergence_ guessing strategy. ``G_m`` is a random variable taking values 1; 0.5; or 0 if the investigator's guess on the ``m^\text{th}`` treatment assignment in the sequence is correct:
+    ```math
+    G_m = \left\{
+        \begin{array}{rl}
+        1, & D(m-1) < 0 \\
+        0.5, & D(m-1) = 0 \\
+        0, & D(m-1) > 0
+        \end{array}
+    \right.    
+    ``` 
+    where ``D(m-1)`` is a current imbalance (at the ``m^\text{th}`` allocation step).
 
 Below, there are  functions available for calculating operational characteristics.
 
@@ -428,7 +438,7 @@ calc_variance_of_imb(sr::SimulatedRandomization)
 calc_expected_max_abs_imb(sr::SimulatedRandomization)
 ```
 
-## Expected maximum imbalance over first allocation steps
+## A cumulative average loss at the first allocation steps
 
 ```@docs
 calc_cummean_loss(sr::SimulatedRandomization)
