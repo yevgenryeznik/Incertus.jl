@@ -1,5 +1,6 @@
 module Incertus
 
+using DataFrames: DataFrame
 using Distributions
 using Match
 using ProgressMeter
@@ -30,6 +31,8 @@ include("op-03-brt.jl")
 include("op-04-visualize.jl")
 include("utils.jl")
 
+export DataFrame
+
 export CompleteRandomization
 export CRD
 export RestrictedRandomization
@@ -47,6 +50,7 @@ export calc_cummean_epcg
 export calc_cummean_pda
 export calc_fi
 export calc_brt
+export visualize
 
 export set_label
 
