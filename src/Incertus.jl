@@ -1,6 +1,6 @@
 module Incertus
 
-using DataFrames: DataFrame
+using DataFrames: DataFrame, nrow
 using Distributions
 using Match
 using ProgressMeter
