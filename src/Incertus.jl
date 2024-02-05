@@ -26,6 +26,7 @@ include("rnd-11-eud.jl")
 include("simulation.jl")
 include("op-01-imb.jl")
 include("op-02-rand.jl")
+include("op-03-brt.jl")
 include("utils.jl")
 
 export CompleteRandomization
@@ -44,6 +45,8 @@ export calc_cummean_loss
 export calc_cummean_epcg
 export calc_cummean_pda
 export calc_fi
+export calc_brt
+
 export set_label
 
 export plot
