@@ -5,7 +5,7 @@ using Match
 using ProgressMeter
 using Random: seed!
 using Roots
-using StatsPlots
+using StatsPlots: @df, plot, gr, xticks!, yticks!, xlabel!, ylabel!, xlims!, ylims!
 using Statistics
  
 abstract type CompleteRandomization end
@@ -27,6 +27,7 @@ include("simulation.jl")
 include("op-01-imb.jl")
 include("op-02-rand.jl")
 include("op-03-brt.jl")
+include("op-04-visualize.jl")
 include("utils.jl")
 
 export CompleteRandomization
@@ -48,8 +49,5 @@ export calc_fi
 export calc_brt
 
 export set_label
-
-export plot
-export @df
 
 end # module Incertus
