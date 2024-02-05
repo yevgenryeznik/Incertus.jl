@@ -31,7 +31,7 @@ include("op-03-brt.jl")
 include("op-04-visualize.jl")
 include("utils.jl")
 
-export DataFrame
+export DataFrame, nrow
 
 export CompleteRandomization
 export CRD

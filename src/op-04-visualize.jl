@@ -1,10 +1,15 @@
 """Function used to visualize simulated operational characteristics.
 
 # Call
-`visualize(op, xlabel, ylabel, colors, shapes, marker_size, xticks, yticks, xlims, ylims, size, dpi)`
+`visualize(op; kw...)`
 
 # Arguments
 - `op::DataFrame` -- a data frame, containing simulated operational characteristics; each column represents simulated output for a particular randomization procedure.
+
+# Key words
+
+`kw` refers to the _kew words_. The following are currently supported and have to be provided:
+
 - `xlabel::String` -- a text label for ``X`` axis.
 - `ylabel::String` -- a text label for ``Y`` axis.
 - `colors::Matrix{Symbol}` -- a matrix (row) of colors (symbolic representation) to distinguish outputs for different randomization procedure.

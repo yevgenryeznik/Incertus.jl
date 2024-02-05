@@ -493,20 +493,7 @@ calc_brt(sr::SimulatedRandomization)
 # Visualizing operational characteristics
 
 ```@docs
-visualize(
-    op::DataFrame; 
-    xlabel::String,
-    ylabel::String,
-    colors::Matrix{Symbol},
-    shapes::Matrix{Symbol},
-    marker_size::Int64,
-    xticks::Vector{<:Number},
-    yticks::Vector{<:Number},
-    xlims::Tuple{<:Number, <:Number} = (0, nrow(op)+1),
-    ylims::Tuple{<:Number, <:Number} = (0, ceil(maximum([maximum(row) for row in eachrow(op)]))),
-    size::Tuple{Int64, Int64} = (800, 600),
-    dpi::Int64 = 300
-    )
+visualize(op::DataFrame; kw...)
 ```
 
 # Auxiliary functions
