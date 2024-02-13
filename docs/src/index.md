@@ -337,6 +337,29 @@ using Incertus
 eud = EUD(2) # EUD, targeting 1:1 allocation (mti=2)
 ```
 
+## Bayesian Biased Coin Design (BBCD)
+
+A special class of _biased coind designs_ (BCDs). At the ``j^\text{th}`` allocation step, given treatment numbers ``N_1`` and ``N_2``, s.t. ``N_1+N_2 = j-1``,
+
+```math
+\phi_j = \left\{\begin{array}{rl}
+0.5, & j = 1 \\
+1, & j = 2 \: \& \: N_1 = 0 \\
+0, & j = 2 \: \& \: N_1 = 1 \\
+\frac{\left(1 + \frac{N_2}{nN_1}\right)^\frac{1}{\gamma}}{\left(1 + \frac{N_2}{nN_1}\right)^\frac{1}{\gamma} + \left(1 + \frac{N_1}{nN_2}\right)^\frac{1}{\gamma}}, & j \geq 3 
+\end{array}\right. ,\: j = 1, \ldots, n.
+```
+
+where ``\gamma`` (``>0``) is a parameter of the procedure, and ``n`` is a sample size (pre-specified).
+
+```@docs
+BBCD
+```
+
+```@repl
+using Incertus
+bbcd = BBCD(0.1, 40) # BBCD, targeting 1:1 allocation (γ=2, n = 40)
+```
 
 # Funcions implemented to calculate allocation probabilities
 
@@ -383,6 +406,12 @@ allocation_prb(::BUD, ::Vector{Int64})
 ```@docs
 allocation_prb(::EUD, ::Vector{Int64})
 ```
+
+```@docs
+allocation_prb(::BBCD, ::Vector{Int64})
+```
+
+
 # Simulation
 
 To perform simulations, the following functionality has been implemented:

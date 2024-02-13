@@ -23,6 +23,7 @@ include("rnd-08-bsd.jl")
 include("rnd-09-bcdwit.jl")
 include("rnd-10-bud.jl")
 include("rnd-11-eud.jl")
+include("rnd-12-bbcd.jl")
 
 include("simulation.jl")
 include("op-01-imb.jl")
@@ -36,7 +37,7 @@ export DataFrame, nrow
 export CompleteRandomization
 export CRD
 export RestrictedRandomization
-export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD
+export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD, BBCD
 export SimulatedRandomization
 
 export simulate

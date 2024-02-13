@@ -43,6 +43,7 @@ set_label(rnd::Union{CompleteRandomization, RestrictedRandomization}) = @match r
     r::BCDWIT => "BCDWIT($(as_string(r.p)), $(as_string(r.mti)))"
     r::BUD    => "BUD($(as_string(r.λ)))"
     r::EUD    => "EUD($(as_string(r.mti)))"
+    r::BBCD   => "BBCD($(as_string(r.γ)))"
     #r::MWUD   => "MWUD($(as_string(r.α)))"
     #r::DLR    => "DLR($(as_string(r.a)))"
     #r::DBCD   => "DBCD($(as_string(r.γ)))"
