@@ -43,7 +43,7 @@ function allocation_prb(rnd::BBCD, N::Vector{Int64})
     j = N[1] + N[2]
 
     # probability of treatment assignment
-    ϕ = j == 1 ? 0.5 : (j == 2 ? Int(N[1] == 0) : (n + N[2]/N[1])^(1/γ)/((n + N[2]/N[1])^(1/γ) + (n + N[1]/N[2])^(1/γ)))
+    ϕ = j+1 == 1 ? 0.5 : (j+1 == 2 ? Int(N[1] == 0) : (n + N[2]/N[1])^(1/γ)/((n + N[2]/N[1])^(1/γ) + (n + N[1]/N[2])^(1/γ)))
     
     return ϕ 
 end
