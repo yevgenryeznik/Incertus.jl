@@ -7,11 +7,11 @@ An output of the command is an isntance of BBCD.
 """
 struct BBCD <: RestrictedRandomization
     target::Vector{Int64}
-    γ::Float64
+    γ::Number
     nsbj::Int64
 
 
-    function BBCD(target::Vector{Int64}, γ::Float64, nsbj::Int64) 
+    function BBCD(target::Vector{Int64}, γ::Number, nsbj::Int64) 
         # getting number of treatments
         ntrt = length(target)
     
@@ -24,7 +24,7 @@ struct BBCD <: RestrictedRandomization
     end
     
 end
-BBCD(γ::Float64, nsbj::Int64) = BBCD([1, 1], γ, nsbj)
+BBCD(γ::Number, nsbj::Int64) = BBCD([1, 1], γ, nsbj)
 
 """Function calculates allocation probabilities for BBCD, given treatment numbers.
 # Call
