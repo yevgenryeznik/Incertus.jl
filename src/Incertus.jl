@@ -9,9 +9,10 @@ using Random: seed!
 using Roots
 using StatsPlots
 using Statistics
- 
-abstract type CompleteRandomization end
-abstract type RestrictedRandomization end
+
+abstract type Randomization end
+abstract type CompleteRandomization <: Randomization end
+abstract type RestrictedRandomization <: Randomization end
 
 include("rnd-01-crd.jl")
 include("rnd-02-pbd.jl")
@@ -35,6 +36,7 @@ include("utils.jl")
 
 export DataFrame
 
+export Randomization
 export CompleteRandomization
 export CRD
 export RestrictedRandomization

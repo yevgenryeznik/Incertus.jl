@@ -26,29 +26,29 @@ function Base.show(io::IO, sr::SimulatedRandomization)
 
     println(io, "An output of the randomization simulation (`trt`, `prb`)")
     println(io, "--------------------------------------------------------")
-    println(io, "A simulated treatment assignments (`trt`):")
+    println(io, "Simulated treatment assignments (`trt`):")
     display(trt)
-    println(io, "A simulated allocation probabilities (`prb`):")
+    println(io, "Simulated allocation probabilities (`prb`):")
     display(prb) 
 end
 
 
 
-"""Function simulates randomization procedures
+"""Function simulates a randomization procedure
+
+# Call: 
 `simulate(rnd, nsbj, nsim, seed)`
 
 # Arguments
-- `rnd::Union{CompleteRandomization, RestrictedRandomization}`: an object, representing 
-a randomization procedure to be simulated, an instance of `CompleteRandomization` or 
-`RestrictedRandomization`.
+- `rnd::Randomization`: an object, representing a randomization procedure to be simulated.
 - `nsbj::Int64`: number of subjects simulated.
 - `nsim::Int64`: number of simulations performed.
 - `seed::Int64`: a random seed (for reproducibility); a default is set to 314159.
 
 # Result
-- an object, representing simlated randomization, an instance of `Simulatedrandomization`.
+- an object, representing simlated randomization, an instance of `SimulatedRandomization`.
 """
-function simulate(rnd::Union{CompleteRandomization, RestrictedRandomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+function simulate(rnd::Randomization, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
     # setting random seed (for reproducibility)
     seed!(seed)
 
@@ -81,4 +81,23 @@ function simulate(rnd::Union{CompleteRandomization, RestrictedRandomization}, ns
     end
 
     return SimulatedRandomization(trt, prb)
+end
+
+
+"""Function simulates a set of randomization procedures
+
+# Call: 
+`simulate(rnd, nsbj, nsim, seed)`
+
+# Arguments
+- `rnd::Vector{Randomization}`: a vector of instances of `Randomization` type; each instance represents a randomization procedure to be simulated.
+- `nsbj::Int64`: number of subjects simulated.
+- `nsim::Int64`: number of simulations performed.
+- `seed::Int64`: a random seed (for reproducibility); a default is set to 314159.
+
+# Result
+- a vector of instances of `SimulatedRandomization` type; each instance represents a simulated randomization procedure.
+"""
+function simulate(rnd::Vector{Randomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+    return [simulate(item, nsbj, nsim, seed) for item in rnd]
 end
