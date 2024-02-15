@@ -1,6 +1,6 @@
 module Incertus
 
-using DataFrames: DataFrame, nrow, insertcols, stack, unstack, sort
+using DataFrames
 using Distributions
 using Match
 using Pipe
