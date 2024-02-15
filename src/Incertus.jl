@@ -7,7 +7,7 @@ using Pipe
 using ProgressMeter
 using Random: seed!
 using Roots
-using StatsPlots: @df, plot, gr, xticks!, yticks!, xlabel!, ylabel!, xlims!, ylims!, cgrad
+using StatsPlots
 using Statistics
  
 abstract type CompleteRandomization end
@@ -33,7 +33,7 @@ include("op-03-brt.jl")
 include("op-04-visualize.jl")
 include("utils.jl")
 
-export DataFrame, nrow
+export DataFrame
 
 export CompleteRandomization
 export CRD
@@ -52,8 +52,8 @@ export calc_cummean_epcg
 export calc_cummean_pda
 export calc_fi
 export calc_brt
-export visualize
-export heatmap 
+export plot
+export heatmap
 
 export set_label
 

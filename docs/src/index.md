@@ -522,7 +522,7 @@ calc_brt(sr::SimulatedRandomization)
 # Visualizing operational characteristics
 
 ```@docs
-visualize(op::DataFrame; kw...)
+plot(op::DataFrame; kw...)
 ```
 
 ```@docs

@@ -1,7 +1,7 @@
 """Function used to visualize simulated operational characteristics.
 
 # Call
-`visualize(op; kw...)`
+`plot(op; kw...)`
 
 # Arguments
 - `op::DataFrame` -- a data frame, containing simulated operational characteristics; each column represents simulated output for a particular randomization procedure.
@@ -25,7 +25,7 @@
 # Result
 - A plot of corresponding operational chacteristics vs. allocation step
 """
-function visualize(
+function plot(
     op::DataFrame;
     xlabel::String,
     ylabel::String,
@@ -104,7 +104,7 @@ function heatmap(
         foreground_color_legend = nothing
     )
 
-    @df brt_transfromed[:, Not(:design)] StatsPlots.heatmap(cols(), c=cgrad(palette))
+    @df brt_transfromed[:, Not(:design)] heatmap(cols(), c=cgrad(palette))
     xlabel!(xlabel)
     ylabel!(ylabel)
     xticks!(xticks)
