@@ -480,11 +480,20 @@ Below, there are functions available for calculating operational characteristics
 calc_final_imb(sr::SimulatedRandomization)
 ```
 
+```@docs
+calc_final_imb(sr::Vector{SimulatedRandomization})
+```
+
 ## Expected absolute imbalance
 
 ```@docs
 calc_expected_abs_imb(sr::SimulatedRandomization)
 ```
+
+```@docs
+calc_expected_abs_imb(sr::Vector{SimulatedRandomization})
+```
+
 
 ## Variance of imbalance
 

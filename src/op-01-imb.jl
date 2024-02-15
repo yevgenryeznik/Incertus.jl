@@ -29,6 +29,25 @@ function calc_final_imb(sr::SimulatedRandomization)
 end
 
 
+"""Function calculates final imbalance
+
+# Call
+`calc_final_imb(sr)`
+
+# Arguments
+- `sr::Vector{SimulatedRandomization}`: a vector of instances of `SimulatedRandomization`, representing simulation output.
+
+# Result
+- A `DataFrame` of simulated _final imbalances_' values obtained via simulations.
+"""
+function calc_final_imb(sr::Vector{SimulatedRandomization})
+    final_imb = hcat([calc_final_imb(item) for item in sr]...)
+    rnd_labels = [item.label for item in sr]
+
+    return DataFrame(final_imb, rnd_labels)
+end
+
+
 """Function calculates expected absolute imbalance vs. allocation step.
 
 # Call
@@ -53,6 +72,24 @@ function calc_expected_abs_imb(sr::SimulatedRandomization)
     return vec(expected_abs_imb)
 end
 
+
+"""Function calculates expected absolute imbalance vs. allocation step.
+
+# Call
+`calc_expected_abs_imb(sr)`
+
+# Arguments
+- `sr::Vector{SimulatedRandomization}`: a vector of instances of `SimulatedRandomization`, representing simulation output.
+
+# Result
+- A `DataFrame` of _expected absolute imbalances_' values summarized via simulations.
+"""
+function calc_expected_abs_imb(sr::Vector{SimulatedRandomization})
+    final_imb = hcat([calc_expected_abs_imb(item) for item in sr]...)
+    rnd_labels = [item.label for item in sr]
+
+    return DataFrame(final_imb, rnd_labels)
+end
 
 """Function calculates variance of imbalance vs. allocation step.
 
