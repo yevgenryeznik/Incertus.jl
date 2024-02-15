@@ -1,7 +1,8 @@
 """A type, representing an output of a simulated randomization procedure.
 
-A command `SimulatedRandomization(trt, prb)` initializes an instance of `SimulatedRandomization`:
+A command `SimulatedRandomization(label, trt, prb)` initializes an instance of `SimulatedRandomization`:
 
+- `label` is a string that describes the simulated randomization procedure; 
 - `trt` is a matrix of size ``n\\times S``, representing treatment assignments;
 - `prb` is an array of size ``n\\times K\\times S``, representing allocation probabilities,
 
@@ -12,19 +13,23 @@ where
 - ``S`` is the number of simulations performed.
 """
 struct SimulatedRandomization
+    label::String
     trt::Matrix{Int64}
     prb::Array{Float64} 
 end
 
 # function used to display simulated randomization output.
 function Base.show(io::IO, sr::SimulatedRandomization)
+    # getting the description of the simulated randomization procedure
+    label = sr.label
+
     # extracting simulated treatment assignments
     trt = sr.trt
 
     # extracting simulated allocaton probabilities 
     prb = sr.prb
 
-    println(io, "An output of the randomization simulation (`trt`, `prb`)")
+    println(io, "An output of the randomization procedure ($(label)) simulation (`trt`, `prb`)")
     println(io, "--------------------------------------------------------")
     println(io, "Simulated treatment assignments (`trt`):")
     display(trt)
@@ -79,8 +84,10 @@ function simulate(rnd::Randomization, nsbj::Int64, nsim::Int64, seed::Int64 = 31
             N[k] += 1
         end
     end
+    # setting label
+    label = set:label(rnd)
 
-    return SimulatedRandomization(trt, prb)
+    return SimulatedRandomization(label, trt, prb)
 end
 
 
