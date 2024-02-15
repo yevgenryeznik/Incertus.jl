@@ -85,7 +85,7 @@ function simulate(rnd::Randomization, nsbj::Int64, nsim::Int64, seed::Int64 = 31
         end
     end
     # setting label
-    label = set:label(rnd)
+    label = set_label(rnd)
 
     return SimulatedRandomization(label, trt, prb)
 end
