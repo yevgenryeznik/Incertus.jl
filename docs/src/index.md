@@ -525,6 +525,10 @@ calc_brt(sr::SimulatedRandomization)
 visualize(op::DataFrame; kw...)
 ```
 
+```@docs
+heatmap(brt::DataFrame; kw...)
+```
+
 # Auxiliary functions
 
 ```@docs

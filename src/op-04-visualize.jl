@@ -56,3 +56,57 @@ function visualize(
     xlims!(xlims)
     ylims!(ylims)
 end
+
+
+"""Function used to visualize balance-randomness trade-off as a heatmap plot.
+
+# Call
+`heatmap(op; kw...)`
+
+# Arguments
+- `brt::DataFrame` -- a data frame, containing simulated balance-randomness trade-off; each column represents simulated output for a particular randomization procedure.
+
+# Key words
+
+`kw` refers to the _kew words_. The following are currently supported and have to be provided:
+
+- `xlabel::String` -- a text label for ``X`` axis; default is set ot `"allocation step"`.
+- `ylabel::String` -- a text label for ``Y`` axis; default is set ot `"design"`.
+- `palette::Vector{Symbol}` -- a vector of colors (symbolic representation) to make a continuous color gradient; default is set to `[:red, :orange, :yellow, :green, :blue, :navy, :purple]`.
+- `xticks::Vector{<:Number}` -- ticks for ``X`` axis.
+- `size::Tuple{Int64, Int64}` -- an output figure size; default is set to `(800, 600)`.
+- `dpi::Int64` -- dpi value; default is set to `300`.
+
+# Result
+- A heatmap plot of the balance-randomness trade-off vs. allocation step
+"""
+function heatmap(
+    brt::DataFrame;
+    xlabel::String = "allocation step",
+    ylabel::String = "design",
+    palette::Vector{Symbol} = [:red, :orange, :yellow, :green, :blue, :navy, :purple],
+    xticks::Vector{<:Number},
+    size::Tuple{Int64, Int64} = (800, 600),
+    dpi::Int64 = 300
+)
+    brt_transfromed = @pipe brt |> 
+        insertcols(_, 1, :sbj => 1:nrow(_)) |> 
+        stack(_, Not(:sbj), variable_name = :design) |> 
+        unstack(_, :sbj, :value) |>
+        sort(_, names(_)[end])
+
+    # heatmap plot
+
+    gr(
+        size = size, 
+        dpi = dpi, 
+        legend = :outerright,
+        foreground_color_legend = nothing
+    )
+
+    @df brt_transfromed[:, Not(:design)]  heatmap(cols(), c=cgrad(palette))
+    xlabel!(xlabel)
+    ylabel!(ylabel)
+    xticks!(xticks)
+    yticks!(1:nrow(brt_transfromed), brt_transfromed.design)
+end

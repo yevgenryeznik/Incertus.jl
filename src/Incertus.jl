@@ -3,6 +3,7 @@ module Incertus
 using DataFrames: DataFrame, nrow
 using Distributions
 using Match
+using Pipe
 using ProgressMeter
 using Random: seed!
 using Roots
@@ -52,6 +53,7 @@ export calc_cummean_pda
 export calc_fi
 export calc_brt
 export visualize
+export heatmap 
 
 export set_label
 
