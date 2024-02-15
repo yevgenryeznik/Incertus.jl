@@ -46,6 +46,7 @@ export SimulatedRandomization
 export simulate
 export allocation_prb
 
+export calc_final_imb
 export calc_expected_abs_imb
 export calc_variance_of_imb
 export calc_expected_max_abs_imb

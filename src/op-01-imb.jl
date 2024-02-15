@@ -5,14 +5,37 @@ function calc_imb(δ::Vector{Int64})
 end
 
 
+"""Function calculates final imbalance
+
+# Call
+`calc_final_imb(sr)`
+
+# Arguments
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
+
+# Result
+- A vector of _final imbalance_ values obtained via simulations.
+"""
+function calc_final_imb(sr::SimulatedRandomization)
+    trt = sr.trt
+    ntrt = maximum(trt)
+    nsbj, nsim = size(trt)
+    if ntrt == 2
+        trt = 2 .- trt
+    end
+    final_imb = [2*sum(trt[:, s]) - nsbj for s in 1:nsim]
+
+    return final_imb
+end
+
+
 """Function calculates expected absolute imbalance vs. allocation step.
 
 # Call
 `calc_expected_abs_imb(sr)`
 
 # Arguments
-- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
-representing simulation output.
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
 - A vector of _expected absolute imbalance_ values summarized via simulations.
@@ -37,8 +60,7 @@ end
 `calc_variance_of_imb(sr)`
 
 # Arguments
-- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
-representing simulation output.
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
 - A vector of _variance of imbalance_ values summarized via simulations.
@@ -64,8 +86,7 @@ end
 `calc_expected_max_abs_imb(sr)`
 
 # Arguments
-- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
-representing simulation output.
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
 - A vector of _expected maximum absolute imbalance over firat allocations_ values summarized via simulations.
@@ -96,8 +117,7 @@ end
 `calc_expected_abs_imb(sr)`
 
 # Arguments
-- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
-representing simulation output.
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
 - A vector of _cumulative average loss_ values summarized via simulations.

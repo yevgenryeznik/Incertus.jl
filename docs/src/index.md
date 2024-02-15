@@ -472,7 +472,13 @@ _**Balance-randomness trade-off**_:
 
 - ``G(j) = \sqrt{\left\{Imb(j)\right\}^2 + \left\{FI(j)\right\}^2}`` represents a _balance-randomness trade-off_ at the ``j^\text{th}`` allocation step. Lower values of ``G(j)`` indicate better balance–randomness trade-off.
 
-Below, there are  functions available for calculating operational characteristics.
+Below, there are functions available for calculating operational characteristics.
+
+## Final imbalance
+
+```@docs
+calc_final_imb(sr::SimulatedRandomization)
+```
 
 ## Expected absolute imbalance
 
