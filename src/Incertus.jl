@@ -7,7 +7,7 @@ using Pipe
 using ProgressMeter
 using Random: seed!
 using Roots
-using StatsPlots: @df, plot, heatmap, gr, xticks!, yticks!, xlabel!, ylabel!, xlims!, ylims!, cgrad
+using StatsPlots: @df, plot, gr, xticks!, yticks!, xlabel!, ylabel!, xlims!, ylims!, cgrad
 using Statistics
  
 abstract type CompleteRandomization end
