@@ -47,7 +47,7 @@ function plot(
         foreground_color_legend = nothing
     )
     
-    @df op plot(cols(), marker = shapes, ms = marker_size, color = colors)
+    @df op StatsPlots.plot(cols(), marker = shapes, ms = marker_size, color = colors)
 
     xticks!(xticks)
     yticks!(yticks)
@@ -104,7 +104,7 @@ function heatmap(
         foreground_color_legend = nothing
     )
 
-    @df brt_transfromed[:, Not(:design)] heatmap(cols(), c=cgrad(palette))
+    @df brt_transfromed[:, Not(:design)] StatsPlots.heatmap(cols(), c=cgrad(palette))
     xlabel!(xlabel)
     ylabel!(ylabel)
     xticks!(xticks)
