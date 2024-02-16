@@ -434,6 +434,7 @@ Several measures of imbalance and randomness have been implemented in the packag
 
 _**Measures of imbalance**_:
 
+- ``D(n)`` -- final imbalance after all treatment assignments made.
 - ``\mathbf{E}\left[|D(j)|\right]`` -- expected absolute imbalance at the ``j^\text{th}`` allocation step.
 - ``\mathbf{E}\left[|D(j)|^2\right]=\mathbf{var}\left[D(j)\right]`` -- variance of imbalance at the ``j^\text{th}`` allocation step.
 - ``\mathbf{E}\left[\max\limits_{1\leq m \leq j}|D(m)|\right]`` -- expected maximum imbalance over the first ``j`` allocation steps.
@@ -531,10 +532,18 @@ calc_cummean_loss(sr::Vector{SimulatedRandomization})
 calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
 ```
 
+```@docs
+calc_cummean_epcg(sr::Vector{SimulatedRandomization}, gs::String)
+```
+
 ## Cumulative average of expected proportions of deterministic assignments over first allocation steps
 
 ```@docs
 calc_cummean_pda(sr::SimulatedRandomization)
+```
+
+```@docs
+calc_cummean_pda(sr::Vector{SimulatedRandomization})
 ```
 
 ## Forcing index
@@ -543,12 +552,19 @@ calc_cummean_pda(sr::SimulatedRandomization)
 calc_fi(sr::SimulatedRandomization)
 ```
 
+```@docs
+calc_fi(sr::Vector{SimulatedRandomization})
+```
+
 ## Balance-randomness trade-off
 
 ```@docs
 calc_brt(sr::SimulatedRandomization)
 ```
 
+```@docs
+calc_brt(sr::Vector{SimulatedRandomization})
+```
 
 # Visualizing operational characteristics
 

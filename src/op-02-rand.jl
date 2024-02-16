@@ -32,23 +32,21 @@ function calc_da(ϕ::Vector{Float64})
     return(deterministic_assignment)
 end
 
+
 """Function calculates cumulative averages of expected proportions of correct guesses vs. allocation step.
 
 # Call
 `calc_cummean_epcg(sr, gs)`
 
 # Arguments
-- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
-representing simulation output.
-- `gs::String`: guessing strategy; accepts two values: `"C"` (corresponds to the 
-_convergence_ guessing strategy) of `"MP"` (corresponds to the _maximum probability_ 
-guessing strategy).
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
+- `gs::String`: guessing strategy; accepts two values: `"C"` (corresponds to the _convergence_ guessing strategy) of `"MP"` (corresponds to the _maximum probability_ guessing strategy).
 
 # Result
-- A vector of _cumulative averages of the expected proportions of correct guesses_ values summarized via simulations.
+- A `Vector` of _cumulative averages of the expected proportions of correct guesses_ summarized via simulations.
 """
 function calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
-    @assert gs in ["C", "MP"] "`gs` input parameter must have of the values in [\"C\", \"MP\"]"
+    @assert gs in ["C", "MP"] "`gs` input parameter must have one of the following values: \"C\" or \"MP\"."
     trt = sr.trt
     prb = sr.prb
     ntrt = maximum(trt)
@@ -69,14 +67,34 @@ function calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
 end
 
 
+"""Function calculates cumulative averages of expected proportions of correct guesses vs. allocation step.
+
+# Call
+`calc_cummean_epcg(sr, gs)`
+
+# Arguments
+- `sr::Vector{SimulatedRandomization}`: a vector of instances of `SimulatedRandomization`, representing simulation output.
+- `gs::String`: guessing strategy; accepts two values: `"C"` (corresponds to the _convergence_ guessing strategy) of `"MP"` (corresponds to the _maximum probability_ guessing strategy).
+
+# Result
+- A vector of _cumulative averages of the expected proportions of correct guesses_ summarized via simulations.
+"""
+function calc_cummean_epcg(sr::Vector{SimulatedRandomization}, gs::String)
+    cummean_epcg = hcat([calc_cummean_epcg(item, gs) for item in sr]...)
+    rnd_labels = [item.label for item in sr]
+
+    return DataFrame(cummean_epcg, rnd_labels)
+end
+
+
+
 """Function calculates cumulative averages of the proportions of deterministic assignments vs. allocation step.
 
 # Call
 `calc_cummean_pda(sr)`
 
 # Arguments
-- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
-representing simulation output.
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
 - A vector of the _cumulative averages of the proportions of deterministic assignmnets_ values summarized via simulations.
@@ -100,17 +118,35 @@ function calc_cummean_pda(sr::SimulatedRandomization)
 end
 
 
+"""Function calculates cumulative averages of the proportions of deterministic assignments vs. allocation step.
+
+# Call
+`calc_cummean_pda(sr)`
+
+# Arguments
+- `sr::Vector{SimulatedRandomization}`: a vector of instances of `SimulatedRandomization`, representing simulation output.
+
+# Result
+- A `DataFrame` of the _cumulative averages of the proportions of deterministic assignmnets_ summarized via simulations.
+"""
+function calc_cummean_pda(sr::Vector{SimulatedRandomization})
+    cummean_pda = hcat([calc_cummean_pda(item) for item in sr]...)
+    rnd_labels = [item.label for item in sr]
+
+    return DataFrame(cummean_pda, rnd_labels)
+end
+
+
 """Function calculates forcing index vs. allocation step.
 
 # Call
 `calc_fi(sr)`
 
 # Arguments
-- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, 
-representing simulation output.
+- `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
-- A vector of the _forcing index_ values summarized via simulations.
+- A `Vector` of the _forcing index_ values summarized via simulations.
 """
 function calc_fi(sr::SimulatedRandomization)
     trt = sr.trt
@@ -128,4 +164,23 @@ function calc_fi(sr::SimulatedRandomization)
     fi = 4 .* (cumsum(efi1) ./ sbj)
 
     return fi
+end
+
+
+"""Function calculates forcing index vs. allocation step.
+
+# Call
+`calc_fi(sr)`
+
+# Arguments
+- `sr::Vector{SimulatedRandomization}`: a vector of instances of `SimulatedRandomization`, representing simulation output.
+
+# Result
+- A `DataFrame` of the _forcing index_ values summarized via simulations.
+"""
+function calc_fi(sr::Vector{SimulatedRandomization})
+    fi = hcat([calc_fi(item) for item in sr]...)
+    rnd_labels = [item.label for item in sr]
+
+    return DataFrame(fi, rnd_labels)
 end
