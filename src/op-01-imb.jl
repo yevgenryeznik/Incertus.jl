@@ -14,7 +14,7 @@ end
 - `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
-- A vector of _final imbalance_ values obtained via simulations.
+- A `Vector` of _final imbalance_ values obtained via simulations.
 """
 function calc_final_imb(sr::SimulatedRandomization)
     trt = sr.trt
@@ -57,7 +57,7 @@ end
 - `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
-- A vector of _expected absolute imbalance_ values summarized via simulations.
+- A `Vector` of _expected absolute imbalance_ values summarized via simulations.
 """
 function calc_expected_abs_imb(sr::SimulatedRandomization)
     trt = sr.trt
@@ -85,11 +85,12 @@ end
 - A `DataFrame` of _expected absolute imbalances_' values summarized via simulations.
 """
 function calc_expected_abs_imb(sr::Vector{SimulatedRandomization})
-    final_imb = hcat([calc_expected_abs_imb(item) for item in sr]...)
+    expected_abs_imb = hcat([calc_expected_abs_imb(item) for item in sr]...)
     rnd_labels = [item.label for item in sr]
 
-    return DataFrame(final_imb, rnd_labels)
+    return DataFrame(expected_abs_imb, rnd_labels)
 end
+
 
 """Function calculates variance of imbalance vs. allocation step.
 
@@ -100,7 +101,7 @@ end
 - `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
-- A vector of _variance of imbalance_ values summarized via simulations.
+- A `Vector` of _variance of imbalance_ values summarized via simulations.
 """
 function calc_variance_of_imb(sr::SimulatedRandomization)
     trt = sr.trt
@@ -117,6 +118,25 @@ function calc_variance_of_imb(sr::SimulatedRandomization)
 end
 
 
+"""Function calculates variance of imbalance vs. allocation step.
+
+# Call
+`calc_variance_of_imb(sr)`
+
+# Arguments
+- `sr::Vector{SimulatedRandomization}`: a vector of instances of `SimulatedRandomization`, representing simulation output.
+
+# Result
+- A `DataFrame` of _variances' of imbalance_ values summarized via simulations.
+"""
+function calc_variance_of_imb(sr::Vector{SimulatedRandomization})
+    variance_of_imb = hcat([calc_variance_of_imb(item) for item in sr]...)
+    rnd_labels = [item.label for item in sr]
+
+    return DataFrame(variance_of_imb, rnd_labels)
+end
+
+
 """Function calculates expected maximum absolute imbalance over first allocations vs. allocation step.
 
 # Call
@@ -126,7 +146,7 @@ end
 - `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
-- A vector of _expected maximum absolute imbalance over firat allocations_ values summarized via simulations.
+- A `Vector` of _expected maximum absolute imbalance over firat allocations_ values summarized via simulations.
 """
 function calc_expected_max_abs_imb(sr::SimulatedRandomization)
     trt = sr.trt
@@ -148,16 +168,35 @@ function calc_expected_max_abs_imb(sr::SimulatedRandomization)
 end
 
 
+"""Function calculates expected maximum absolute imbalance over first allocations vs. allocation step.
+
+# Call
+`calc_expected_max_abs_imb(sr)`
+
+# Arguments
+- `sr::Vector{SimulatedRandomization}`: a vector of instances of `SimulatedRandomization`, representing simulation output.
+
+# Result
+- A `DataFrame` of _expected maximum absolute imbalances'_ values (over first allocations) summarized via simulations.
+"""
+function calc_expected_max_abs_imb(sr::Vector{SimulatedRandomization})
+    expected_max_abs_imb = hcat([calc_expected_max_abs_imb(item) for item in sr]...)
+    rnd_labels = [item.label for item in sr]
+
+    return DataFrame(expected_max_abs_imb, rnd_labels)
+end
+
+
 """Function calculates cumulative average loss vs. allocation step.
 
 # Call
-`calc_expected_abs_imb(sr)`
+`calc_cummean_loss(sr)`
 
 # Arguments
 - `sr::SimulatedRandomization`: an instance of `SimulatedRandomization`, an object, representing simulation output.
 
 # Result
-- A vector of _cumulative average loss_ values summarized via simulations.
+- A `Vector` of _cumulative average loss'_ values summarized via simulations.
 """
 function calc_cummean_loss(sr::SimulatedRandomization)
     
@@ -166,4 +205,23 @@ function calc_cummean_loss(sr::SimulatedRandomization)
 
     cummean_loss = cumsum(variance_of_imb ./ sbj) ./sbj
     return cummean_loss
+end
+
+
+"""Function calculates cumulative average loss vs. allocation step.
+
+# Call
+`calc_cummean_loss(sr)`
+
+# Arguments
+- `sr::Vector{SimulatedRandomization}`: a vector of instances of `SimulatedRandomization`, representing simulation output.
+
+# Result
+- A `DataFrame` of _cumulative average losses'_ values summarized via simulations.
+"""
+function calc_cummean_loss(sr::Vector{SimulatedRandomization})
+    cummean_loss = hcat([calc_cummean_loss(item) for item in sr]...)
+    rnd_labels = [item.label for item in sr]
+
+    return DataFrame(cummean_loss, rnd_labels)
 end

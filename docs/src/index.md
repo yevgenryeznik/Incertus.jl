@@ -501,16 +501,28 @@ calc_expected_abs_imb(sr::Vector{SimulatedRandomization})
 calc_variance_of_imb(sr::SimulatedRandomization)
 ```
 
+```@docs
+calc_variance_of_imb(sr::Vector{SimulatedRandomization})
+```
+
 ## Expected maximum imbalance over first allocation steps
 
 ```@docs
 calc_expected_max_abs_imb(sr::SimulatedRandomization)
 ```
 
+```@docs
+calc_expected_max_abs_imb(sr::Vector{SimulatedRandomization})
+```
+
 ## A cumulative average loss at the first allocation steps
 
 ```@docs
 calc_cummean_loss(sr::SimulatedRandomization)
+```
+
+```@docs
+calc_cummean_loss(sr::Vector{SimulatedRandomization})
 ```
 
 ## Cumulative average of expected proportions of correct guesses over first allocation steps under _two_ different guessing strategies 
