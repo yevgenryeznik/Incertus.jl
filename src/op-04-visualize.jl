@@ -35,6 +35,7 @@ function plot(op::DataFrame; kwargs...)
         size = (800, 600),
         dpi = 300,
         legend = :outerright,
+        legend_foreground_color = nothing,
         xlabel = "allocation step",
         ylabel = "value", 
         xlims = (0, nsbj+1),
@@ -119,7 +120,7 @@ function violin(final_imb::DataFrame; kwargs...)
     ndesign = ncol(final_imb)
 
     # getting design names
-    designs = brt_transfromed.design
+    designs = names(final_imb)
 
     # setting colors
     color_scheme = ColorSchemes.tab10
