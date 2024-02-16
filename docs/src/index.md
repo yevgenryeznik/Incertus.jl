@@ -541,11 +541,15 @@ calc_brt(sr::SimulatedRandomization)
 # Visualizing operational characteristics
 
 ```@docs
-plot(op::DataFrame; kw...)
+plot(op::DataFrame; kwargs...)
 ```
 
 ```@docs
-heatmap(brt::DataFrame; kw...)
+heatmap(brt::DataFrame; kwargs...)
+```
+
+```@docs
+violin(final_imb::DataFrame; kwargs...)
 ```
 
 # Auxiliary functions

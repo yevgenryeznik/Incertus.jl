@@ -1,5 +1,6 @@
 module Incertus
 
+using ColorSchemes
 using DataFrames
 using Distributions
 using Match
@@ -57,6 +58,7 @@ export calc_fi
 export calc_brt
 export plot
 export heatmap
+export violin
 
 export set_label
 
