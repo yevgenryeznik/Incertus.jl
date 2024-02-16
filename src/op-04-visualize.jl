@@ -18,7 +18,7 @@ function plot(op::DataFrame; kwargs...)
     ndesign = ncol(op)
     
     # setting Y-axis maximum bound
-    yB = ceil(maximum([maximum(row) for row in eachrow(op)]))
+    yB = maximum([maximum(row) for row in eachrow(op)])
 
     # setting colors
     color_scheme = ColorSchemes.tab10
@@ -38,7 +38,7 @@ function plot(op::DataFrame; kwargs...)
         legend_foreground_color = nothing,
         xlabel = "allocation step",
         xlims = (0, nsbj+1),
-        ylims = (-0.1, yB),
+        ylims = (-yB/50, yB*51/50),
         xticks = [1; 5:5:nsbj],
         color = colors,
         marker = markers, 
