@@ -45,7 +45,7 @@ end
 `simulate(rnd, nsbj, nsim, seed)`
 
 # Arguments
-- `rnd::Randomization`: an object, representing a randomization procedure to be simulated.
+- `rnd::T where T <: Randomization`: an object, representing a randomization procedure to be simulated.
 - `nsbj::Int64`: number of subjects simulated.
 - `nsim::Int64`: number of simulations performed.
 - `seed::Int64`: a random seed (for reproducibility); a default is set to 314159.
@@ -53,7 +53,7 @@ end
 # Result
 - an object, representing simlated randomization, an instance of `SimulatedRandomization`.
 """
-function simulate(rnd::Randomization, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+function simulate(rnd::T, nsbj::Int64, nsim::Int64, seed::Int64 = 314159) where T <: Randomization
     # setting random seed (for reproducibility)
     seed!(seed)
 
