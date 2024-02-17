@@ -425,7 +425,7 @@ simulate(rnd::Randomization, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
 ```
 
 ```@docs
-simulate(rnd::Vector{Randomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+simulate(rnd::Vector{<:Randomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
 ```
 
 # Operational characteristics (_two-arm trial with equal 1:1 allocation_)

@@ -97,7 +97,7 @@ end
 `simulate(rnd, nsbj, nsim, seed)`
 
 # Arguments
-- `rnd::Vector{Randomization}`: a vector of instances of `Randomization` type; each instance represents a randomization procedure to be simulated.
+- `rnd::Vector{<:Randomization}`: a vector of instances of `<:Randomization` type; each instance represents a randomization procedure to be simulated.
 - `nsbj::Int64`: number of subjects simulated.
 - `nsim::Int64`: number of simulations performed.
 - `seed::Int64`: a random seed (for reproducibility); a default is set to 314159.
@@ -105,6 +105,6 @@ end
 # Result
 - a vector of instances of `SimulatedRandomization` type; each instance represents a simulated randomization procedure.
 """
-function simulate(rnd::Vector{Randomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+function simulate(rnd::Vector{<:Randomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
     return [simulate(item, nsbj, nsim, seed) for item in rnd]
 end
