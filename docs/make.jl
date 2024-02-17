@@ -2,8 +2,10 @@ using Documenter
 using Incertus
 
 makedocs(
-    sitename = "Incertus",
-    format = Documenter.HTML(),
+    sitename = "Incertus.jl",
+    format = Documenter.HTML(
+        prettyurls = get(ENV, "CI", nothing) == "true"
+    ),
     modules = [Incertus]
 )
 
