@@ -10,11 +10,11 @@ An output of both commands is an instance of `RAND`.
 """
 struct RAND <: RestrictedRandomization
     target::Vector{Int64}
-    nsbj::Int64
+    parameter::Int64
 
-    RAND(target::Vector{Int64}, nsbj::Int64) = new(simplify(target), nsbj)
+    RAND(target::Vector{Int64}, parameter::Int64) = new(simplify(target), parameter)
 end
-RAND(nsbj::Int64) = RAND([1, 1], nsbj)
+RAND(parameter::Int64) = RAND([1, 1], parameter)
 
 
 """Function calculates allocation probabilities for RAND, given treatment numbers.
@@ -30,27 +30,14 @@ function allocation_prb(rnd::RAND, N::Vector{Int64})
     w = rnd.target
         
     # getting a block size (for Rand, it is equal to the total sample size)
-    nsbj = rnd.nsbj
+    nsbj = rnd.parameter
 
     # indicating a current allocation step (current subject's ID)
     j = sum(N) + 1
-
-    # number of treatments
-    ntrt = length(w)
     
-    # if it is a randomization, targeting 1:1 allocation
-    if ntrt == 2 && allequal(w)
-        # calculating probability of treatment assignment
-        prb = (0.5*nsbj-N[1])/(nsbj-(j-1))
-
-    # otherwise, it is a randomization, targeting allocation w 
-    # (unequal in a two-arm trial or equal/unequal in a multi-arm trial)   
-    else
-        W = sum(w)
-
-        # vector of probabilities of treatment assignments
-        prb = [(w[i]/W*nsbj - N[i])/(nsbj - (j-1)) for i in eachindex(w)]
-    end  
+    # probabilities of treatments' assignments
+    W = sum(w)
+    prb = [(w[i]/W*nsbj - N[i])/(nsbj - (j-1)) for i in eachindex(w)]
 
     return prb
 end
