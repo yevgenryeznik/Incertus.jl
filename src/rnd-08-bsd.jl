@@ -7,22 +7,20 @@ An output of the command is an isntance of BSD.
 """
 struct BSD <: RestrictedRandomization
     target::Vector{<:Number}
-    mti::Int64
+    parameter::Int64
 
-    function BSD(target::Vector{<:Number}, mti::Int64)
+    function BSD(target::Vector{<:Number}, parameter::Int64)
         # getting number of treatments
         ntrt = length(target)
-    
-        if ntrt > 2 
-            throw(NotImplementedForMultiArmTrial())
-        elseif !allequal(target) 
-            throw(NotImplementedForUnequalAllocation())
-        else
-            return new([1, 1], mti)
-        end
+        
+        @assert parameter >= 0 "The procedures parameter, `mti`, must be non-negative";
+        @assert ntrt == 2 "The procedure isn't implemented for multi-arm trials";
+        @assert allequal(target) "The procedure isn't implemented for unequal allocation";
+
+        return new(target, parameter)
     end
 end
-BSD(mti::Int64) = BSD([1, 1], mti)
+BSD(parameter::Int64) = BSD([1, 1], parameter)
 
 
 """Function calculates allocation probabilities for BSD, given treatment numbers.
@@ -35,13 +33,14 @@ BSD(mti::Int64) = BSD([1, 1], mti)
 """
 function allocation_prb(rnd::BSD, N::Vector{Int64})
     # getting MTI parameter
-    mti = rnd.mti
+    mti = rnd.parameter
 
     # calculating current treatment imbalance
     d = N[1] - N[2]
  
-    # calculating probability of tretament asssgnment, given imbalance
-    prb = abs(d) < mti ? 0.5 : (d == mti ? 0 : 1)    
-
+    # probabilities of treatments' assignments
+    P = abs(d) < mti ? 0.5 : (d == mti ? 0 : 1)    
+    prb = [P, 1-P]
+    
     return prb
 end
