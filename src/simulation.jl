@@ -3,7 +3,7 @@
 A command `SimulatedRandomization(label, trt, prb)` initializes an instance of `SimulatedRandomization`:
 
 - `label` is a string that describes the simulated randomization procedure; 
-- `trt` is a matrix of size ``n\\times S``, representing treatment assignments;
+- `trt` is a matrix of size ``n\\times K\\times S``, representing treatment assignments;
 - `prb` is an array of size ``n\\times K\\times S``, representing allocation probabilities,
 
 where 
@@ -14,7 +14,7 @@ where
 """
 struct SimulatedRandomization
     label::String
-    trt::Matrix{Int64}
+    trt::Array{Int64}
     prb::Array{Float64} 
 end
 
@@ -35,6 +35,8 @@ function Base.show(io::IO, sr::SimulatedRandomization)
     display(trt)
     println(io, "Simulated allocation probabilities (`prb`):")
     display(prb) 
+
+    return nothing
 end
 
 
@@ -64,7 +66,7 @@ function simulate(rnd::T, nsbj::Int64, nsim::Int64, seed::Int64 = 314159) where 
     ntrt = length(w)
     
     # 2D-array of treatment assignments
-    trt = zeros(Int64, nsbj, nsim)
+    trt = zeros(Int64, nsbj, ntrt, nsim)
 
     # 3D-array of probabilities of treatment assignments
     prb = zeros(Float64, nsbj, ntrt, nsim)
@@ -73,21 +75,20 @@ function simulate(rnd::T, nsbj::Int64, nsim::Int64, seed::Int64 = 314159) where 
         N = zeros(Int64, ntrt)
         for j in 1:nsbj
             # probability of treatment assignemnt
-            p = typeof(rnd) == CRD ? allocation_prb(rnd) : allocation_prb(rnd, N)
-            prb[j, :, s] = ntrt == 2 ? [p, 1-p] : p
+            prb[j, :, s] = typeof(rnd) == CRD ? allocation_prb(rnd) : allocation_prb(rnd, N)
 
             # making treatment assignment
             k = rand(Categorical(prb[j, :, s]))
-            trt[j, s] = k
+            trt[j, k, s] = 1
 
             # updating treatment numbers
             N[k] += 1
         end
     end
     # setting label
-    label = set_label(rnd)
+    lbl = label(rnd)
 
-    return SimulatedRandomization(label, trt, prb)
+    return SimulatedRandomization(lbl, trt, prb)
 end
 
 
