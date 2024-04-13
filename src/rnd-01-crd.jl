@@ -24,12 +24,8 @@ function allocation_prb(rnd::CRD)
     # target alloaction
     w = rnd.target    
 
-    # probability(ies) of treatment assignment
-    if allequal(w) && length(w) == 2
-        prb = 0.5
-    else
-        prb = w/sum(w)
-    end
+    # probabilities of treatments' assignments
+    prb = w/sum(w)
 
     return prb
 end
