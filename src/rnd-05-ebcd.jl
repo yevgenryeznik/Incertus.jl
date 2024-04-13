@@ -7,20 +7,20 @@ An output of the command is an isntance of EBCD.
 """
 struct EBCD <: RestrictedRandomization 
     target::Vector{Int64}
-    p::Number
+    parameter::Number
 
-    function EBCD(target::Vector{Int64}, p::Number)
+    function EBCD(target::Vector{Int64}, parameter::Number)
         # getting number of treatments
         ntrt = length(target)
     
-        @assert 0.5 <= p <= 1 "The procedures parameter, `p`, must be between 0.5 and 1";
+        @assert 0.5 <= parameter <= 1 "The procedure's parameter, `p`, must be between 0.5 and 1";
         @assert ntrt == 2 "The procedure isn't implemented for multi-arm trials";
         @assert allequal(target) "The procedure isn't implemented for unequal allocation";
 
-        return new(target, p)
+        return new(target, parameter)
     end
 end
-EBCD(p::Number) = EBCD([1, 1], p)
+EBCD(parameter::Number) = EBCD([1, 1], parameter)
 
 
 """Function calculates allocation probabilities for EBCD, given treatment numbers.
@@ -33,11 +33,14 @@ EBCD(p::Number) = EBCD([1, 1], p)
 """
 function allocation_prb(rnd::EBCD, N::Vector{Int64})
     # randomization parameter
-    p = Float64(rnd.p)    
+    p = Float64(rnd.parameter)    
 
     # imbalance
     d = N[1] - N[2]
 
-    # probability of treatment assignment
-    return d == 0 ? 0.5 : (d < 0 ? p : 1-p)
+    # probabilities of treatments' assignments
+    P = d == 0 ? 0.5 : (d < 0 ? p : 1-p)
+    prb = [P, 1-P]
+
+    return prb
 end
