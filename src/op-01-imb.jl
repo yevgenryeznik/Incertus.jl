@@ -79,15 +79,19 @@ end
 """
 function calc_expected_abs_imb(sr::SimulatedRandomization)
     trt = sr.trt
-    ntrt = maximum(trt)
+
+    # getting simulation options
+    _, ntrt, nsim = size(trt)
+
     if ntrt == 2
-        trt = 2 .- trt
+        abs_imb = hcat([abs.(calc_imb(trt[:, :, s])) for s in 1:nsim]...)
+        expected_abs_imb = mean(abs_imb, dims = 2)
+
+        return vec(expected_abs_imb)
+    else
+        println("multi-arm trials are not supported yet")
+        return nothing
     end
-
-    abs_imb = hcat([abs.(calc_imb(trt[:, :, s])) for s in axes(trt, 2)]...)
-    expected_abs_imb = mean(abs_imb, dims = 2)
-
-    return vec(expected_abs_imb)
 end
 
 
@@ -123,16 +127,20 @@ end
 """
 function calc_variance_of_imb(sr::SimulatedRandomization)
     trt = sr.trt
-    ntrt = maximum(trt)
+
+    # getting simulation options
+    _, ntrt, nsim = size(trt)
+
     if ntrt == 2
-        trt = 2 .- trt
+        imb = hcat([calc_imb(trt[:, :, s]) for s in 1:nsim]...)
+        imb2 = imb.^2
+        variance_of_imb = mean(imb2, dims = 2)
+
+        return vec(variance_of_imb)
+    else
+        println("multi-arm trials are not supported yet")
+        return nothing
     end
-
-    imb = hcat([calc_imb(trt[:, :, s]) for s in axes(trt, 2)]...)
-    imb2 = imb.^2
-    variance_of_imb = mean(imb2, dims = 2)
-
-    return vec(variance_of_imb)
 end
 
 
@@ -168,21 +176,25 @@ end
 """
 function calc_expected_max_abs_imb(sr::SimulatedRandomization)
     trt = sr.trt
-    ntrt = maximum(trt)
+
+    # getting simulation options
+    nsbj, ntrt, nsim = size(trt)
+
     if ntrt == 2
-        trt = 2 .- trt
-    end
-
-    abs_imb = hcat([abs.(calc_imb(trt[:, :, s])) for s in axes(trt, 2)]...)
-    max_abs_imb = zeros(Int64, size(trt))
-    for s in axes(trt, 2)
-        for j in axes(trt, 1)
-            max_abs_imb[j, s] = maximum(abs_imb[1:j, s])
+        abs_imb = hcat([abs.(calc_imb(trt[:, :, s])) for s in 1:nsim]...)
+        max_abs_imb = zeros(Int64, nsbj, nsim)
+        for s in 1:nsim
+            for j in 1:nsbj
+                max_abs_imb[j, s] = maximum(abs_imb[1:j, s])
+            end
         end
-    end
-    expected_max_abs_imb = mean(max_abs_imb, dims = 2)
+        expected_max_abs_imb = mean(max_abs_imb, dims = 2)
 
-    return vec(expected_max_abs_imb)
+        return vec(expected_max_abs_imb)
+    else
+        println("multi-arm trials are not supported yet")
+        return nothing
+    end
 end
 
 
