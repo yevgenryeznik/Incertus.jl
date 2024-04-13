@@ -7,19 +7,19 @@ An output of the command is an isntance of TBD.
 """
 struct TBD <: RestrictedRandomization 
     target::Vector{<:Number}
-    nsbj::Int64
+    parameter::Int64
 
-    function TBD(target::Vector{<:Number}, nsbj::Int64)
+    function TBD(target::Vector{<:Number}, parameter::Int64)
         # getting number of treatments
         ntrt = length(target)
         
         @assert ntrt == 2 "The procedure isn't implemented for multi-arm trials";
         @assert allequal(target) "The procedure isn't implemented for unequal allocation";
             
-        return new([1, 1], nsbj)
+        return new([1, 1], parameter)
     end
 end
-TBD(nsbj::Int64) = TBD([1, 1], nsbj)
+TBD(parameter::Int64) = TBD([1, 1], parameter)
 
 
 """Function calculates allocation probabilities for TBD, given treatment numbers.
@@ -32,10 +32,11 @@ TBD(nsbj::Int64) = TBD([1, 1], nsbj)
 """
 function allocation_prb(rnd::TBD, N::Vector{Int64})
     # sample size
-    nsbj = rnd.nsbj
+    nsbj = rnd.parameter
 
-    # allocation probability, given current treatment assignments
-    prb = max(N[1], N[2]) < nsbj/2 ? 0.5 : (N[1] < N[2] ? 1 : 0)
+    # probabilities of treatments' assignments
+    P = max(N[1], N[2]) < nsbj/2 ? 0.5 : (N[1] < N[2] ? 1 : 0)
+    prb = [P, 1-P]
 
     return prb
 end
