@@ -1,5 +1,20 @@
-function calc_imb(δ::Vector{Int64})
-    imb = 2 .* cumsum(δ) - eachindex(δ)
+function calc_trt_numbers(trt::Matrix{Int64})
+    N = cumsum(trt, dims = 1)
+
+    return(N)
+end
+
+
+function calc_imb(trt::Matrix{Int64})
+    nsbj, ntrt = size(trt)
+
+    @assert ntrt == 2 "The function is not implemented for multi-arm trials"
+    
+    # calculating treatment numbers 
+    N = calc_trt_numbers(trt)
+
+    # calculating imbalance
+    imb = [N[i, 1] - N[i, 2] for i in 1:nsbj]
 
     return(imb)
 end
@@ -18,14 +33,17 @@ end
 """
 function calc_final_imb(sr::SimulatedRandomization)
     trt = sr.trt
-    ntrt = maximum(trt)
-    nsbj, nsim = size(trt)
-    if ntrt == 2
-        trt = 2 .- trt
-    end
-    final_imb = [2*sum(trt[:, s]) - nsbj for s in 1:nsim]
 
-    return final_imb
+    # getting simulation options
+    nsbj, ntrt, nsim = size(trt)
+
+    if ntrt == 2
+        imb = [calc_imb(trt[:, :, s]) for s in 1:nsim]
+        return [imb[s][nsbj] for s in 1:nsim]    
+    else
+        println("multi-arm trials are not supported yet")
+        return nothing
+    end
 end
 
 
@@ -66,7 +84,7 @@ function calc_expected_abs_imb(sr::SimulatedRandomization)
         trt = 2 .- trt
     end
 
-    abs_imb = hcat([abs.(calc_imb(trt[:, s])) for s in axes(trt, 2)]...)
+    abs_imb = hcat([abs.(calc_imb(trt[:, :, s])) for s in axes(trt, 2)]...)
     expected_abs_imb = mean(abs_imb, dims = 2)
 
     return vec(expected_abs_imb)
@@ -110,7 +128,7 @@ function calc_variance_of_imb(sr::SimulatedRandomization)
         trt = 2 .- trt
     end
 
-    imb = hcat([calc_imb(trt[:, s]) for s in axes(trt, 2)]...)
+    imb = hcat([calc_imb(trt[:, :, s]) for s in axes(trt, 2)]...)
     imb2 = imb.^2
     variance_of_imb = mean(imb2, dims = 2)
 
@@ -155,7 +173,7 @@ function calc_expected_max_abs_imb(sr::SimulatedRandomization)
         trt = 2 .- trt
     end
 
-    abs_imb = hcat([abs.(calc_imb(trt[:, s])) for s in axes(trt, 2)]...)
+    abs_imb = hcat([abs.(calc_imb(trt[:, :, s])) for s in axes(trt, 2)]...)
     max_abs_imb = zeros(Int64, size(trt))
     for s in axes(trt, 2)
         for j in axes(trt, 1)

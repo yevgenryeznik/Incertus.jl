@@ -47,23 +47,26 @@ end
 """
 function calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
     @assert gs in ["C", "MP"] "`gs` input parameter must have one of the following values: \"C\" or \"MP\"."
+    
     trt = sr.trt
     prb = sr.prb
-    ntrt = maximum(trt)
-    if ntrt == 2
-        trt = 2 .- trt
-        prb = hcat([prb[:, 1, s] for s in axes(prb, 3)]...) 
-    end
-
-    pcg = gs == "C" ? 
-        hcat([calc_guess_cgs(trt[:, s]) for s in axes(trt, 2)]...) :
-        hcat([calc_guess_mpgs(trt[:, s], prb[:, s]) for s in axes(trt, 2)]...)
     
-    expected_pcg = vec(mean(pcg, dims = 2))
-    sbj = eachindex(expected_pcg)
-    cummean_epcg = cumsum(expected_pcg) ./ sbj
+    nsbj, ntrt, nsim = size(trt)
+    
+    if ntrt == 2
+        pcg = gs == "C" ? 
+            hcat([calc_guess_cgs(trt[:, 1, s]) for s in 1:nsim]...) :
+            hcat([calc_guess_mpgs(trt[:, 1, s], prb[:, 1, s]) for s in 1:nsim]...)
+    
+        expected_pcg = vec(mean(pcg, dims = 2))
+        sbj = collect(1:nsbj)
+        cummean_epcg = cumsum(expected_pcg) ./ sbj
 
-    return cummean_epcg
+        return cummean_epcg
+    else
+        println("multi-arm trials are not supported yet")
+        return nothing
+    end
 end
 
 
@@ -102,19 +105,21 @@ end
 function calc_cummean_pda(sr::SimulatedRandomization)
     trt = sr.trt
     prb = sr.prb
-    ntrt = maximum(trt)
-    if ntrt == 2
-        trt = 2 .- trt
-        prb = hcat([prb[:, 1, s] for s in axes(prb, 3)]...) 
-    end
-
-    da = hcat([calc_da(prb[:, s]) for s in axes(prb, 2)]...)
     
-    pda = vec(mean(da, dims = 2))
-    sbj = eachindex(pda)
-    cummean_pda = cumsum(pda) ./ sbj
+    nsbj, ntrt, nsim = size(trt)
 
-    return cummean_pda
+    if ntrt == 2
+        da = hcat([calc_da(prb[:, 1, s]) for s in 1:nsim]...)
+    
+        pda = vec(mean(da, dims = 2))
+        sbj = collect(1:nsbj)
+        cummean_pda = cumsum(pda) ./ sbj
+
+        return cummean_pda
+    else
+        println("multi-arm trials are not supported yet")
+        return nothing
+    end
 end
 
 
@@ -151,19 +156,21 @@ end
 function calc_fi(sr::SimulatedRandomization)
     trt = sr.trt
     prb = sr.prb
-    ntrt = maximum(trt)
-    if ntrt == 2
-        trt = 2 .- trt
-        prb = hcat([prb[:, 1, s] for s in axes(prb, 3)]...) 
-    end
-
-    fi1 = hcat([abs.(prb[:, s] .- 0.5) for s in axes(prb, 2)]...)
     
-    efi1 = vec(mean(fi1, dims = 2))
-    sbj = eachindex(efi1)
-    fi = 4 .* (cumsum(efi1) ./ sbj)
+    nsbj, ntrt, nsim = size(trt)
 
-    return fi
+    if ntrt == 2
+        fi1 = hcat([abs.(prb[:, 1, s] .- 0.5) for s in 1:nsim]...)
+    
+        efi1 = vec(mean(fi1, dims = 2))
+        sbj = collect(1:nsbj)
+        fi = 4 .* (cumsum(efi1) ./ sbj)
+
+        return fi
+    else
+        println("multi-arm trials are not supported yet")
+        return nothing    
+    end
 end
 
 
