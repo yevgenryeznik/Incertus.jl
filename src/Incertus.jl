@@ -61,6 +61,6 @@ export plot
 export heatmap
 export violin
 
-export set_label
+export label
 
 end # module Incertus
