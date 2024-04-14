@@ -4,6 +4,7 @@ using ColorSchemes
 using DataFrames
 using Distributions
 using Match
+using NonlinearSolve
 using Pipe
 using ProgressMeter
 using Random: seed!
@@ -27,6 +28,9 @@ include("rnd-09-bcdwit.jl")
 include("rnd-10-bud.jl")
 include("rnd-11-eud.jl")
 include("rnd-12-bbcd.jl")
+include("rnd-13-mwud.jl")
+include("rnd-14-dbcd.jl")
+include("rnd-15-maxent.jl")
 
 include("simulation.jl")
 include("op-01-imb.jl")
@@ -41,7 +45,7 @@ export Randomization
 export CompleteRandomization
 export CRD
 export RestrictedRandomization
-export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD, BBCD
+export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD, BBCD, MWUD, DBCD, MaxEnt
 export SimulatedRandomization
 
 export simulate
