@@ -304,6 +304,93 @@ using Incertus
 bbcd = BBCD(0.1, 40) # BBCD, targeting 1:1 allocation (γ=2, n = 40)
 ```
 
+
+## Mass Weighted Urn Design (MWUD)
+
+A randomization procedure that can be used fo for two- and multi-arm trials, targeting both equal and unequal allocation. At the ``j^\text{th}`` allocation step, given ``K`` treatments and corresponding treatment numbers ``N_1(j-1) \ldots N_K(j-1)``, s.t. ``\sum_{k = 1}^K{N_k(j-1)} = j-1``,
+
+```math
+P_k(j) = \frac{\max\left\{\alpha\rho_k-N_k(j-1) +(j-1)\rho_k , 0\right\}}{\sum_{k=1}^K\max\left\{\alpha\rho_k-N_k(j-1) +(j-1)\rho_k , 0\right\}} ,\: j = 1, \ldots, n.
+```
+
+where ``\alpha`` (``>0``) is a parameter of the procedure that controls _maximum tolerated imbalance_.
+
+```@docs
+MWUD
+```
+
+```@repl
+using Incertus
+mwud = MWUD(2)     # MWUD, targeting 1:1 allocation (α=2)
+
+w = [1, 2, 3, 4]   # target allocation ratio
+mwud =  MWUD(w, 2) # MWUD, targeting 1:2:3:4 allocation (α=2)
+```
+
+
+## Doubly-Adaptive Biased Coin Design (DBCD)
+
+A randomization procedure that can be used fo for two- and multi-arm trials with ``K`` treatments, targeting both equal and unequal allocation. Initial treatment assignments (``j=1, 2, \ldots, m_0``) are made completely at random (``P_k(j)=\rho_k``, ``k=1, 2, \ldots, K``) until each group has at least one subject (i.e., ``N_k(m_0)>0``). Subsequent treatment assignments are made as follows:
+
+```math
+P_k(j) = \frac{\rho_k\left(\rho_k/\frac{N_k(j-1)}{j-1}\right)^\gamma}{\sum_{k=1}^K\rho_k\left(\rho_k/\frac{N_k(j-1)}{j-1}\right)^\gamma} ,\: j = m_0+1, \ldots, n.
+```
+
+where ``\gamma`` (``>0``) is a parameter of the procedure.
+
+```@docs
+DBCD
+```
+
+```@repl
+using Incertus
+dbcd = DBCD(2)     # DBCD, targeting 1:1 allocation (γ=2)
+
+w = [1, 2, 3, 4]   # target allocation ratio
+dbcd =  DBCD(w, 2) # DBCD, targeting 1:2:3:4 allocation (γ=2)
+```
+
+## Maximum Entropy Constraint Balance Randomization (MaxEnt)
+
+A randomization procedure that can be used fo for two- and multi-arm trials with ``K`` treatments, targeting both equal and unequal allocation. 
+
+Consider a point in the trial when ``j-1`` subjects have been randomized among the ``K``treatments, and let denote the corresponding treatment numbers as ``N_k(j-1)`` (``k=1, \ldots, K`` and ``\sum_{k_1}^KN_k(k-1) = j-1``). At the ``j^\text{th}`` allocation step, the randomization rule is defined as follows: 
+
+a) For ``k=1, 2, \ldots, K``, compute ``B_k``, the hypothetical "lack of balnce", which results from assigning the ``j^\text{th}`` subject to treatment ``k``:
+
+```math
+B_k = \max\limits_{1\leq i \leq K}\left|\frac{N^{(k)}_i(j)}{k}-\rho_k\right|, \text{ where }N^{(k)}_i(j) = \left\{
+\begin{array}{rl}
+N_i(j-1) + 1, & i = k \\
+N_i(j-1), & i \ne k
+\end{array}
+\right. .
+```
+b) The treatment randomization probabilities for the ``j^\text{th}`` subject ``\left(P_1(j), P_2(j), \ldots, P_K(j)\right)`` are determined as a solution to the constrained optimization problem:
+
+```math
+\begin{aligned}
+&\text{minimize}\sum_{k=1}^KP_k(j)\log\left(\frac{P_k(j)}{\rho_k}\right) \\
+&\text{subject to}\sum_{k=1}^KB_kP_k(j) \leq \eta B_{(1)} + (1-\eta)\sum_{k=1}^KB_k\rho_k \\
+&\text{and}\sum_{k=1}^KP_k(j) = 1; \: 0\leq P_k(j) \leq 1, \: k = 1, 2, \ldots, K,
+\end{aligned}
+```
+
+where ``B_{(1)}=\min\limits_{1\leq k \leq K}B_k``, and ``\eta`` ``\left(\in [0; 1]\right)`` is a parameter of the procedure that controls degree of randomness.
+
+```@docs
+MaxEnt
+```
+
+```@repl
+using Incertus
+maxent = MaxEnt(0.5)     # MaxEnt, targeting 1:1 allocation (η=2)
+
+w = [1, 2, 3, 4]   # target allocation ratio
+maxent = MaxEnt(w, 0.5)  # MaxEnt, targeting 1:2:3:4 allocation (η=2)
+```
+
+
 ## Funcions implemented to calculate allocation probabilities
 
 ```@docs
@@ -352,4 +439,16 @@ allocation_prb(::EUD, ::Vector{Int64})
 
 ```@docs
 allocation_prb(::BBCD, ::Vector{Int64})
+```
+
+```@docs
+allocation_prb(::MWUD, ::Vector{Int64})
+```
+
+```@docs
+allocation_prb(::DBCD, ::Vector{Int64})
+```
+
+```@docs
+allocation_prb(::MaxEnt, ::Vector{Int64})
 ```
