@@ -1,7 +1,8 @@
 """A type, representing an output of a simulated randomization procedure.
 
-A command `SimulatedRandomization(label, trt, prb)` initializes an instance of `SimulatedRandomization`:
+A command `SimulatedRandomization(target, label, trt, prb)` initializes an instance of `SimulatedRandomization`:
 
+- `target` is a vector of target allocation ratio;
 - `label` is a string that describes the simulated randomization procedure; 
 - `trt` is a matrix of size ``n\\times K\\times S``, representing treatment assignments;
 - `prb` is an array of size ``n\\times K\\times S``, representing allocation probabilities,
@@ -13,6 +14,7 @@ where
 - ``S`` is the number of simulations performed.
 """
 struct SimulatedRandomization
+    target::Vector{<:Number}
     label::String
     trt::Array{Int64}
     prb::Array{Float64} 
@@ -85,10 +87,13 @@ function simulate(rnd::T, nsbj::Int64, nsim::Int64, seed::Int64 = 314159) where 
             N[k] += 1
         end
     end
+    # getting target
+    target = rnd.target
+    
     # setting label
     lbl = label(rnd)
 
-    return SimulatedRandomization(lbl, trt, prb)
+    return SimulatedRandomization(target, lbl, trt, prb)
 end
 
 
