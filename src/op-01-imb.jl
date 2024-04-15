@@ -5,18 +5,22 @@ function calc_trt_numbers(trt::Matrix{Int64})
 end
 
 
-function calc_imb(trt::Matrix{Int64})
+function calc_imb(trt::Matrix{Int64}, target::Vector{<:Number})
     nsbj, ntrt = size(trt)
 
-    @assert ntrt == 2 "The function is not implemented for multi-arm trials"
-    
     # calculating treatment numbers 
     N = calc_trt_numbers(trt)
 
-    # calculating imbalance
-    imb = [N[i, 1] - N[i, 2] for i in 1:nsbj]
+    if (ntrt == 2) & (target[1] == target[2])
+        # calculating imbalance
+        return [N[j, 1] - N[j, 2] for j in 1:nsbj]
+    else
+        # target allocation proportions
+        ρ = target ./ sum(target)
 
-    return(imb)
+        # calculating (Euclidean) distance
+        return [(N[j, :] - j .* ρ)'*(N[j, :] - j .* ρ) for j in 1:nsbj]
+    end
 end
 
 
@@ -32,18 +36,17 @@ end
 - A `Vector` of _final imbalance_ values obtained via simulations.
 """
 function calc_final_imb(sr::SimulatedRandomization)
+    # target allocation ratio
+    target = sr.target
+
+    # extracting treatment assignments
     trt = sr.trt
 
     # getting simulation options
-    nsbj, ntrt, nsim = size(trt)
+    _, _, nsim = size(trt)
 
-    if ntrt == 2
-        imb = [calc_imb(trt[:, :, s]) for s in 1:nsim]
-        return [imb[s][nsbj] for s in 1:nsim]    
-    else
-        println("multi-arm trials are not supported yet")
-        return nothing
-    end
+    imb = [calc_imb(trt[:, :, s], target) for s in 1:nsim]
+    return [imb[s][end] for s in 1:nsim]    
 end
 
 
@@ -78,20 +81,19 @@ end
 - A `Vector` of _expected absolute imbalance_ values summarized via simulations.
 """
 function calc_expected_abs_imb(sr::SimulatedRandomization)
+    # target allocation ratio
+    target = sr.target
+    
+    # extracting treatment assignments
     trt = sr.trt
 
     # getting simulation options
-    _, ntrt, nsim = size(trt)
+    _, _, nsim = size(trt)
 
-    if ntrt == 2
-        abs_imb = hcat([abs.(calc_imb(trt[:, :, s])) for s in 1:nsim]...)
-        expected_abs_imb = mean(abs_imb, dims = 2)
+    abs_imb = hcat([abs.(calc_imb(trt[:, :, s], target)) for s in 1:nsim]...)
+    expected_abs_imb = mean(abs_imb, dims = 2)
 
-        return vec(expected_abs_imb)
-    else
-        println("multi-arm trials are not supported yet")
-        return nothing
-    end
+    return vec(expected_abs_imb)
 end
 
 
@@ -126,21 +128,20 @@ end
 - A `Vector` of _variance of imbalance_ values summarized via simulations.
 """
 function calc_variance_of_imb(sr::SimulatedRandomization)
+    # target allocation ratio
+    target = sr.target
+    
+    # extracting treatment assignments
     trt = sr.trt
 
     # getting simulation options
-    _, ntrt, nsim = size(trt)
+    _, _, nsim = size(trt)
 
-    if ntrt == 2
-        imb = hcat([calc_imb(trt[:, :, s]) for s in 1:nsim]...)
-        imb2 = imb.^2
-        variance_of_imb = mean(imb2, dims = 2)
+    imb = hcat([calc_imb(trt[:, :, s], target) for s in 1:nsim]...)
+    imb2 = imb.^2
+    variance_of_imb = mean(imb2, dims = 2)
 
-        return vec(variance_of_imb)
-    else
-        println("multi-arm trials are not supported yet")
-        return nothing
-    end
+    return vec(variance_of_imb)
 end
 
 
@@ -175,26 +176,25 @@ end
 - A `Vector` of _expected maximum absolute imbalance over firat allocations_ values summarized via simulations.
 """
 function calc_expected_max_abs_imb(sr::SimulatedRandomization)
+    # target allocation ratio
+    target = sr.target
+    
+    # extracting treatment assignments
     trt = sr.trt
 
     # getting simulation options
-    nsbj, ntrt, nsim = size(trt)
+    nsbj, _, nsim = size(trt)
 
-    if ntrt == 2
-        abs_imb = hcat([abs.(calc_imb(trt[:, :, s])) for s in 1:nsim]...)
-        max_abs_imb = zeros(Int64, nsbj, nsim)
-        for s in 1:nsim
-            for j in 1:nsbj
-                max_abs_imb[j, s] = maximum(abs_imb[1:j, s])
-            end
+    abs_imb = hcat([abs.(calc_imb(trt[:, :, s], target)) for s in 1:nsim]...)
+    max_abs_imb = zeros(Int64, nsbj, nsim)
+    for s in 1:nsim
+        for j in 1:nsbj
+            max_abs_imb[j, s] = maximum(abs_imb[1:j, s])
         end
-        expected_max_abs_imb = mean(max_abs_imb, dims = 2)
-
-        return vec(expected_max_abs_imb)
-    else
-        println("multi-arm trials are not supported yet")
-        return nothing
     end
+    expected_max_abs_imb = mean(max_abs_imb, dims = 2)
+
+    return vec(expected_max_abs_imb)
 end
 
 

@@ -1,35 +1,82 @@
 # calculating correct guess probability under the convergence guessing strategy
-function calc_guess_cgs(δ::Vector{Int64})
-    # calculating imbalance before every allocation step
-    imb = [0; 2 .* cumsum(δ[1:end-1]) - eachindex(δ[1:end-1])]
+function calc_guess_cgs(trt::Matrix{Int64}, target::Vector{<:Number})
+    nsbj, ntrt = size(trt)
+    
+    # calculating treatment numbers
+    N = calc_trt_numbers(trt)
 
-    # making guess, given current imbalance
-    guess = [d == 0 ? rand(Binomial(1, 0.5)) : (d < 0 ? 1 : 0) for d in imb]
+    if (ntrt == 2) && (target[1] == target[2])
+        # calculating imbalance before every allocation step
+        imb = [0; N[1:end-1, 1] - N[1:end-1, 2]]
 
-    # correct guesses
-    correct_guess = Int.(guess .== δ)
+        # making guess, given current imbalance
+        guess = [d == 0 ? rand(Binomial(1, 0.5)) : (d < 0 ? 1 : 0) for d in imb]
 
-    return(correct_guess)
+        # returning correct guesses
+        return Int.(guess .== trt[:, 1])
+    else
+        # target allocation proportions
+        ρ = target ./ sum(target)
+
+        # differences between current and target allocation proportions
+        Δ = [zeros(Int64, 1, ntrt); N[1:end-1, :] ./ (1:nsbj-1) .- ρ']
+
+        # making guess, given current imbalance
+        guess = zeros(Int64, size(trt))
+        for j in axes(guess, 1)
+            # guessing probabilities, given treatment numbers
+            pnum = Int.(Δ[j, :] .== minimum(Δ[j, :]))
+            p = pnum ./ sum(pnum)
+
+            # making a guess
+            guess[j, :] = rand(Multinomial(1, p))
+        end
+
+        # returning correct guesses
+        return [Int.(guess[j, :] == trt[j, :]) for j in 1:nsbj]
+    end
 end
 
 
 # calculating correct guess probability under the maximum probability guessing strategy
-function calc_guess_mpgs(δ::Vector{Int64}, ϕ::Vector{Float64})
-    # making guess, given allocation probability
-    guess = [p == 0.5 ? rand(Binomial(1, 0.5)) : (p > 0.5 ? 1 : 0) for p in ϕ]
+function calc_guess_mpgs(trt::Matrix{Int64}, prb::Matrix{Float64}, target::Vector{<:Number})
+    nsbj, ntrt = size(trt)
+    
+    if (ntrt == 2) && (target[1] == target[2])
+        # making guess, given allocation probability
+        guess = [p == 0.5 ? rand(Binomial(1, 0.5)) : (p > 0.5 ? 1 : 0) for p in prb[:, 1]]
 
-    # correct guesses
-    correct_guess = Int.(guess .== δ)
+        # returning correct guesses
+        return Int.(guess .== trt[:, 1])
+    else
+        # making guess, given current allocation probabilities
+        guess = zeros(Int64, size(trt))
+        for j in axes(guess, 1)
+            # guessing probabilities, given treatment numbers
+            pnum = Int.(prb[j, :] .== maximum(prb[j, :]))
+            p = pnum ./ sum(pnum)
 
-    return(correct_guess)
+            # making a guess
+            guess[j, :] = rand(Multinomial(1, p))
+        end
+
+        # returning correct guesses
+        return [Int.(guess[j, :] == trt[j, :]) for j in 1:nsbj]
+    end
 end
 
 
 # calculating deterministic assignments
-function calc_da(ϕ::Vector{Float64})
-    deterministic_assignment = [Int(item ∈ [0, 1]) for item in ϕ]
-
-    return(deterministic_assignment)
+function calc_da(prb::Matrix{Float64}, target::Vector{<:Number})
+    nsbj, ntrt = size(trt)
+    
+    if (ntrt == 2) && (target[1] == target[2])
+        # returning deterministic assignment 
+        return [Int(prb[j, 1] ∈ [0, 1]) for j in 1:nsbj]
+    else
+        # returning deterministic assignment 
+        return [Int(any(prb[j, :] .≈ 1)) for j in 1:nsbj]
+    end
 end
 
 
@@ -48,25 +95,26 @@ end
 function calc_cummean_epcg(sr::SimulatedRandomization, gs::String)
     @assert gs in ["C", "MP"] "`gs` input parameter must have one of the following values: \"C\" or \"MP\"."
     
+    # target allocation ratio
+    target = sr.target
+
+    # extracting treatment assignments
     trt = sr.trt
+
+    # extracting probabilities of treatment assignments
     prb = sr.prb
     
-    nsbj, ntrt, nsim = size(trt)
+    nsbj, _, nsim = size(trt)
     
-    if ntrt == 2
-        pcg = gs == "C" ? 
-            hcat([calc_guess_cgs(trt[:, 1, s]) for s in 1:nsim]...) :
-            hcat([calc_guess_mpgs(trt[:, 1, s], prb[:, 1, s]) for s in 1:nsim]...)
+    pcg = gs == "C" ? 
+        hcat([calc_guess_cgs(trt[:, :, s], target) for s in 1:nsim]...) :
+        hcat([calc_guess_mpgs(trt[:, :, s], prb[:, :, s], target) for s in 1:nsim]...)
     
-        expected_pcg = vec(mean(pcg, dims = 2))
-        sbj = collect(1:nsbj)
-        cummean_epcg = cumsum(expected_pcg) ./ sbj
+    expected_pcg = vec(mean(pcg, dims = 2))
+    sbj = collect(1:nsbj)
+    cummean_epcg = cumsum(expected_pcg) ./ sbj
 
-        return cummean_epcg
-    else
-        println("multi-arm trials are not supported yet")
-        return nothing
-    end
+    return cummean_epcg
 end
 
 
@@ -103,23 +151,24 @@ end
 - A vector of the _cumulative averages of the proportions of deterministic assignmnets_ values summarized via simulations.
 """
 function calc_cummean_pda(sr::SimulatedRandomization)
+    # target allocation ratio
+    target = sr.target
+
+    # extracting treatment assignments
     trt = sr.trt
+
+    # extracting probabilities of treatment assignments
     prb = sr.prb
     
-    nsbj, ntrt, nsim = size(trt)
+    nsbj, _, nsim = size(trt)
 
-    if ntrt == 2
-        da = hcat([calc_da(prb[:, 1, s]) for s in 1:nsim]...)
+    da = hcat([calc_da(prb[:, :, s], target) for s in 1:nsim]...)
     
-        pda = vec(mean(da, dims = 2))
-        sbj = collect(1:nsbj)
-        cummean_pda = cumsum(pda) ./ sbj
+    pda = vec(mean(da, dims = 2))
+    sbj = collect(1:nsbj)
+    cummean_pda = cumsum(pda) ./ sbj
 
-        return cummean_pda
-    else
-        println("multi-arm trials are not supported yet")
-        return nothing
-    end
+    return cummean_pda
 end
 
 
@@ -154,22 +203,32 @@ end
 - A `Vector` of the _forcing index_ values summarized via simulations.
 """
 function calc_fi(sr::SimulatedRandomization)
+    # target allocation ratio
+    target = sr.target
+
+    # extracting treatment assignments
     trt = sr.trt
+
+    # extracting probabilities of treatment assignments
     prb = sr.prb
     
     nsbj, ntrt, nsim = size(trt)
 
-    if ntrt == 2
+    if (ntrt == 2) && (target[1] == target[2])
         fi1 = hcat([abs.(prb[:, 1, s] .- 0.5) for s in 1:nsim]...)
-    
         efi1 = vec(mean(fi1, dims = 2))
         sbj = collect(1:nsbj)
-        fi = 4 .* (cumsum(efi1) ./ sbj)
-
-        return fi
+        
+        return 4 .* (cumsum(efi1) ./ sbj)
     else
-        println("multi-arm trials are not supported yet")
-        return nothing    
+        # target allocation proportion
+        ρ = target ./ sum(target)
+
+        fi1 = hcat([sqrt((prb[:, :, s] - ρ)'*(prb[:, :, s] - ρ)) for s in 1:nsim]...)
+        efi1 = vec(mean(fi1, dims = 2))
+        sbj = collect(1:nsbj)
+        
+        return cumsum(efi1) ./ sbj
     end
 end
 
