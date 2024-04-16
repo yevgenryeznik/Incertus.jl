@@ -8,7 +8,7 @@ Pages = [
     "doc-02-unequal.md",
     "doc-03-implemented-procs.md",
     "doc-04-simulation.md",
-    "doc-05-op-one-to-one.md",
+    "doc-05-op.md",
     "doc-06-visualization.md",
     "doc-07-sim-example.md",
     "doc-08-auxiliary.md" 

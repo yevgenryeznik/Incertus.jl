@@ -5,6 +5,10 @@ plot(op::DataFrame; kwargs...)
 ```
 
 ```@docs
+plot(op::ARP; kwargs...)
+```
+
+```@docs
 heatmap(brt::DataFrame; kwargs...)
 ```
 
