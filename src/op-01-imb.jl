@@ -19,7 +19,7 @@ function calc_imb(trt::Matrix{Int64}, target::Vector{<:Number})
         ρ = target ./ sum(target)
 
         # calculating (Euclidean) distance
-        return [(N[j, :] - j .* ρ)'*(N[j, :] - j .* ρ) for j in 1:nsbj]
+        return [sqrt((N[j, :] - j .* ρ)'*(N[j, :] - j .* ρ)) for j in 1:nsbj]
     end
 end
 
