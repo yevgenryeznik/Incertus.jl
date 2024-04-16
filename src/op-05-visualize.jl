@@ -5,7 +5,7 @@
 
 # Arguments
 - `op::DataFrame` -- a data frame, containing simulated operational characteristics; each column represents simulated output for a particular randomization procedure.
-- `kwargs` refers to the _kew words_. Here, it is possible to pass _key-value_ pairs supported by a `StatsPlots.heatmap` function.
+- `kwargs` refers to the _kew words_. Here, it is possible to pass _key-value_ pairs supported by a `StatsPlots.plot` function.
 
 # Result
 - A plot of corresponding operational chacteristics vs. allocation step
@@ -48,6 +48,66 @@ function plot(op::DataFrame; kwargs...)
         kwargs...
     )
 end
+
+
+"""Function used to visualize simulated operational characteristics.
+
+# Call
+`plot(op; kwargs...)`
+
+# Arguments
+- `op::ARP` -- an instance of `ARP`, containing unconditional allocation probabilities.
+- `kwargs` refers to the _kew words_. Here, it is possible to pass _key-value_ pairs supported by a `StatsPlots.plot` function.
+
+# Result
+- A plot of corresponding operational chacteristics vs. allocation step
+"""
+function plot(op::ARP; kwargs...)
+    # design label
+    lbl = op.label
+
+    # target allocation proportions
+    ρ = op.ρ
+    
+    # unconditional allocation probabilities
+    prb = op.expected_prb
+
+    # setting colors
+    color_scheme = ColorSchemes.tab10
+    ncolors = length(color_scheme)
+    colors = ncolors >= size(prb, 2) ? hcat([[color_scheme[i]] for i in axes(prb, 2)]...) : :auto
+
+    # setting shapes
+    shapes = [:circle :rect :star4 :diamond :star8 :utriangle :star7 :dtriangle :star5 :rtriangle];
+    markers = ncolors >= size(prb, 2) ? shapes : :auto
+
+    # transforming `prb` matrix into a data frame
+    prb_df = DataFrame(prb, [latexify("π_$i") for i in axes(prb, 2)])
+
+    # making a plot 
+    hline(ρ, ls = :dash, lw = 2.0, lc = :black, label = "target allocation")
+    @df prb_df StatsPlots.plot!(
+        cols();
+        size = (800, 600),
+        dpi = 300,
+        legend = :topright,
+        legend_foreground_color = nothing,
+        xlabel = "allocation step",
+        ylabel = "unconditional allocation probability",
+        title = lbl, 
+        xlims = (0, nsbj+1),
+        ylims = (0.0, 1.0),
+        xticks = :auto,
+        yticks = 0:0.1:1,
+        color = colors,
+        marker = markers, 
+        markercolor = colors,
+        markersize = 3,
+        markerstrokewidth = 0.5, 
+        kwargs...
+    )
+end
+
 
 
 """Function used to visualize balance-randomness trade-off as a heatmap plot.
@@ -109,10 +169,8 @@ end
 - A violin plot of the final imbalances.
 """
 function violin(final_imb::DataFrame; kwargs...)
-    # defining bounds for the X-axis
-    xmin = minimum([minimum(row) for row in eachrow(final_imb)])
-    xmax = maximum([maximum(row) for row in eachrow(final_imb)])
-    B = maximum(abs.([xmin, xmax]))
+    # getting number of simulations
+    nsim = nrow(final_imb)
 
     # getting number of designs
     ndesign = ncol(final_imb)
@@ -123,20 +181,27 @@ function violin(final_imb::DataFrame; kwargs...)
     # setting colors
     color_scheme = ColorSchemes.tab10
     ncolors = length(color_scheme)
-    colors = ncolors >= ndesign ? hcat([[color_scheme[i]] for i in 1:ndesign]...) : :auto
+    colors = [ncolors >= ndesign ? color_scheme[i] : :auto for i in 1:ndesign]
 
     # making a plot
-    @df final_imb StatsPlots.violin(
-        cols(); 
-        permute=(:x, :y),
-        size = (800, 600),
-        dpi = 300,
-        legend = nothing,
-        ylabel = "final imbalance",
-        yticks = -B:2:B,
-        xticks = (1:ndesign, designs), 
-        yrotation = 45,
-        color = colors,
-        kwargs...
-    )
+    violin_plot = @pipe final_imb |> 
+        stack(_, variable_name = :design) |>
+        groupby(_, :design) |>
+        combine(_, :value => mean => :mean) |>
+        transform(_, :design => x -> categorical(x, levels = designs) => :design) |>
+        scatter(_.design, zeros(ndesign), label = "",
+            color = colors, 
+            markersize = 2,
+            ylabel = "final imbalance", 
+            xrotation = 30;
+            kwargs...
+        )
+
+    for i in eachindex(designs)
+        x = [designs[i] for _ in 1:nsim]
+        y = final_imb[:, i]
+        StatsPlots.violin!(violin_plot, x, y, fillcolor = colors[i], label = "")
+    end
+                   
+    violin_plot
 end
