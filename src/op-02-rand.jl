@@ -68,7 +68,7 @@ end
 
 # calculating deterministic assignments
 function calc_da(prb::Matrix{Float64}, target::Vector{<:Number})
-    nsbj, ntrt = size(trt)
+    nsbj, ntrt = size(prb)
     
     if (ntrt == 2) && (target[1] == target[2])
         # returning deterministic assignment 
@@ -224,7 +224,7 @@ function calc_fi(sr::SimulatedRandomization)
         # target allocation proportion
         ρ = target ./ sum(target)
 
-        fi1 = hcat([sqrt((prb[:, :, s] - ρ)'*(prb[:, :, s] - ρ)) for s in 1:nsim]...)
+        fi1 = hcat([[sqrt((prb[j, :, s] - ρ)'*(prb[j, :, s] - ρ)) for j in 1:nsbj] for s in 1:nsim]...)
         efi1 = vec(mean(fi1, dims = 2))
         sbj = collect(1:nsbj)
         

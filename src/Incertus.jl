@@ -1,5 +1,6 @@
 module Incertus
 
+using CategoricalArrays
 using ColorSchemes
 using DataFrames
 using Distributions

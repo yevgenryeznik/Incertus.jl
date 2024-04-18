@@ -186,7 +186,7 @@ function calc_expected_max_abs_imb(sr::SimulatedRandomization)
     nsbj, _, nsim = size(trt)
 
     abs_imb = hcat([abs.(calc_imb(trt[:, :, s], target)) for s in 1:nsim]...)
-    max_abs_imb = zeros(Int64, nsbj, nsim)
+    max_abs_imb = zeros(Number, nsbj, nsim)
     for s in 1:nsim
         for j in 1:nsbj
             max_abs_imb[j, s] = maximum(abs_imb[1:j, s])
