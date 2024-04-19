@@ -51,7 +51,7 @@ function simulate(rnd::DLUD, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
     # an array to collect allocation probabilities
     prb = zeros(Float64, nsbj, ntrt, nsim)
 
-    Random.seed!(seed)
+    seed!(seed)
     for s in 1:nsim
         # numbers of subjects allocated to treatments (treatment numbers)
         N = zeros(Int64, ntrt)
