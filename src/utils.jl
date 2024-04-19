@@ -32,29 +32,14 @@ julia> label(dlr_proc)
 """
 function label(rnd::Union{CompleteRandomization, RestrictedRandomization}) 
     procedure = "$(typeof(rnd))"
-    fields = fieldnames(typeof(rnd))
-    values = [as_string(getfield(rnd, f)) for f in fields if f != :target]
+    if procedure in ["CRD", "RAND","TBD"]
+        return procedure
+    else
+        fields = fieldnames(typeof(rnd)) 
+        values = [as_string(getfield(rnd, f)) for f in fields if f != :target]
     
-    return procedure * "(" * join(values, ", ") * ")"
-
-    #@match rnd begin
-    #    r::CRD    => "CRD"
-    #    r::TBD    => "TBD"
-    #r::PBD    => "PBD($(as_string(r.λ)))"
-    #r::RAND   => "Rand"
-    #r::EBCD   => "EBCD($(as_string(r.p)))"
-    #r::ABCD   => "ABCD($(as_string(r.a)))"
-    #r::GBCD   => "GBCD($(as_string(r.γ)))"
-    #r::BSD    => "BSD($(as_string(r.mti)))"
-    #r::BCDWIT => "BCDWIT($(as_string(r.p)), $(as_string(r.mti)))"
-    #r::BUD    => "BUD($(as_string(r.λ)))"
-    #r::EUD    => "EUD($(as_string(r.mti)))"
-    #r::BBCD   => "BBCD($(as_string(r.γ)))"
-    #r::MWUD   => "MWUD($(as_string(r.α)))"
-    #r::DLR    => "DLR($(as_string(r.a)))"
-    #r::DBCD   => "DBCD($(as_string(r.γ)))"
-    #r::MinQD  => "MinQD($(as_string(r.η)))"
-    #r::MaxEnt => "MaxEnt($(as_string(r.η)))"
+        return procedure * "(" * join(values, ", ") * ")"
+    end    
 end
 
 
