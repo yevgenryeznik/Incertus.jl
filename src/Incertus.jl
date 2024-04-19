@@ -35,6 +35,7 @@ include("rnd-12-bbcd.jl")
 include("rnd-13-mwud.jl")
 include("rnd-14-dbcd.jl")
 include("rnd-15-maxent.jl")
+include("rnd-16-dlud.jl")
 
 include("simulation.jl")
 include("op-01-imb.jl")
@@ -50,7 +51,7 @@ export Randomization
 export CompleteRandomization
 export CRD
 export RestrictedRandomization
-export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD, BBCD, MWUD, DBCD, MaxEnt
+export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD, BBCD, MWUD, DBCD, MaxEnt, DLUD
 export SimulatedRandomization
 export ARP
 
