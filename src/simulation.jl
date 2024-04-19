@@ -86,14 +86,11 @@ function simulate(rnd::T, nsbj::Int64, nsim::Int64, seed::Int64 = 314159) where 
             # updating treatment numbers
             N[k] += 1
         end
-    end
-    # getting target
-    target = rnd.target
-    
+    end    
     # setting label
     lbl = label(rnd)
 
-    return SimulatedRandomization(target, lbl, trt, prb)
+    return SimulatedRandomization(w, lbl, trt, prb)
 end
 
 
