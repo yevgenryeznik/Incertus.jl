@@ -17,9 +17,6 @@ function plot(op::DataFrame; kwargs...)
     # getting number of designs
     ndesign = ncol(op)
     
-    # setting Y-axis maximum bound
-    yB = maximum([maximum(row) for row in eachrow(op)])
-
     # setting colors
     color_scheme = ColorSchemes.tab10
     ncolors = length(color_scheme)
@@ -30,21 +27,26 @@ function plot(op::DataFrame; kwargs...)
     markers = ncolors >= ndesign ? shapes : :auto
 
     # making a plot 
+    mm = Plots.mm
     @df op StatsPlots.plot(
         cols();
-        size = (800, 600),
+        size = (1200, 800),
         dpi = 300,
         legend = :outerright,
         legend_foreground_color = nothing,
-        xlabel = "allocation step",
-        xlims = (0, nsbj+1),
-        ylims = (-yB/50, yB*51/50),
-        xticks = [1; 5:5:nsbj],
         color = colors,
-        marker = markers, 
-        markercolor = colors,
-        markersize = 7,
-        markerstrokewidth = 0.5, 
+        marker = markers,
+        markersize = 8,
+        markerstrokewidth = 0.2, 
+        xlabel = "allocation step",
+        xlims = (0, nsbj+2),
+        yguidefontsize = 18,
+        ytickfontsize = 16,
+        xguidefontsize = 18,
+        xtickfontsize = 16,
+        legendfontsize = 18,
+        left_margin = 10mm,
+        bottom_margin = 10mm,
         kwargs...
     )
 end
@@ -72,6 +74,9 @@ function plot(op::ARP; kwargs...)
     # unconditional allocation probabilities
     prb = op.expected_prb
 
+    # getting number of subjects
+    nsbj = size(prb, 1)
+
     # setting colors
     color_scheme = ColorSchemes.tab10
     ncolors = length(color_scheme)
@@ -84,30 +89,64 @@ function plot(op::ARP; kwargs...)
     # transforming `prb` matrix into a data frame
     prb_df = DataFrame(prb, [latexify("π_$i") for i in axes(prb, 2)])
 
-    # making a plot 
-    hline(ρ, ls = :dash, lw = 2.0, lc = :black, label = "target allocation")
+    # making a plot
+    mm = Plots.mm 
+    hline(ρ, ls = :dash, lw = 2.0, lc = :black, label = latexify("ρ_k"))
     @df prb_df StatsPlots.plot!(
         cols();
-        size = (800, 600),
+        size = (1200, 800),
         dpi = 300,
-        legend = :topright,
+        legend = :outerright,
         legend_foreground_color = nothing,
         xlabel = "allocation step",
         ylabel = "unconditional allocation probability",
         title = lbl, 
-        xlims = (0, nsbj+1),
+        xlims = (0, nsbj+2),
         ylims = (0.0, 1.0),
         xticks = :auto,
         yticks = 0:0.1:1,
         color = colors,
         marker = markers, 
         markercolor = colors,
-        markersize = 3,
+        markersize = 8,
         markerstrokewidth = 0.5, 
+        yguidefontsize = 18,
+        ytickfontsize = 16,
+        xguidefontsize = 18,
+        xtickfontsize = 16,
+        legendfontsize = 18,
+        left_margin = 10mm,
+        bottom_margin = 10mm,
         kwargs...
     )
 end
 
+
+"""Function used to visualize simulated operational characteristics.
+
+# Call
+`plot(op; kwargs...)`
+
+# Arguments
+- `op::Vector{ARP}` -- a vector of instances of `ARP`, each containing unconditional allocation probabilities.
+- `kwargs` refers to the _kew words_. Here, it is possible to pass _key-value_ pairs supported by a `StatsPlots.plot` function.
+
+# Result
+- A plot of corresponding operational chacteristics vs. allocation step
+"""
+function plot(op::Vector{ARP}; kwargs...)
+    mm = Plots.mm
+    plt = [plot(op[i]) for i in eachindex(op)]
+    Plots.plot(plt...; 
+        size = (2400, 1800), dpi = 300,
+        left_margin = 20mm, 
+        bottom_margin = 20mm, 
+        top_margin = 20mm, 
+        right_margin = 20mm,  
+        markersize = 5, 
+        titlefontsize = 20,
+        kwargs...)
+end
 
 
 """Function used to visualize balance-randomness trade-off as a heatmap plot.
@@ -142,15 +181,21 @@ function heatmap(brt::DataFrame; kwargs...)
     colors = cgrad([:red, :orange, :yellow, :green, :blue, :navy, :purple])
 
     # making a plot
+    mm = Plots.mm
     @df brt_transfromed[:, Not(:design)] StatsPlots.heatmap(
         cols();
-        size = (800, 600),
+        size = (1200, 800),
         dpi = 300,
         legend = :outerright,
         xlabel = "allocation step",
-        xticks = [1; 5:5:nsbj],
+        #xticks = [1; 5:5:nsbj],
         yticks = (1:ndesign, designs), 
         color = colors,
+        ytickfontsize = 16,
+        xguidefontsize = 18,
+        xtickfontsize = 16,
+        left_margin = 10mm,
+        bottom_margin = 10mm,
         kwargs...
     )
 end
@@ -189,11 +234,17 @@ function violin(final_imb::DataFrame; kwargs...)
         groupby(_, :design) |>
         combine(_, :value => mean => :mean) |>
         transform(_, :design => x -> categorical(x, levels = designs) => :design) |>
-        scatter(_.design, zeros(ndesign), label = "",
+        StatsPlots.scatter(_.design, zeros(ndesign), label = "",
+            size = (1200, 800),
+            left_margin = 10StatsPlots.mm,
+            bottom_margin = 10StatsPlots.mm,
             color = colors, 
-            markersize = 2,
+            markersize = 3,
             ylabel = "final imbalance", 
-            xrotation = 30;
+            yguidefontsize = 18,
+            ytickfontsize = 16,
+            xrotation = 45,
+            xtickfontsize = 16;
             kwargs...
         )
 
