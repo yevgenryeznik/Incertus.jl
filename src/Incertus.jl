@@ -8,6 +8,7 @@ using Latexify
 using Match
 using NonlinearSolve
 using Pipe
+using Plots
 using Printf
 using ProgressMeter
 using Random: seed!
