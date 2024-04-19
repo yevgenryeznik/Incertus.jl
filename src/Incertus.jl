@@ -13,6 +13,7 @@ using Printf
 using ProgressMeter
 using Random: seed!
 using Roots
+using StatsBase
 using StatsPlots
 using Statistics
 
@@ -54,7 +55,6 @@ export RestrictedRandomization
 export CRD, PBD, RAND, TBD, EBCD, ABCD, GBCD, BSD, BCDWIT, BUD, EUD, BBCD, MWUD, DBCD, MaxEnt, DLUD
 export SimulatedRandomization
 export ARP
-
 export simulate
 export allocation_prb
 
