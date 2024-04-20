@@ -16,7 +16,7 @@ struct TBD <: RestrictedRandomization
         @assert ntrt == 2 "The procedure isn't implemented for multi-arm trials";
         @assert allequal(target) "The procedure isn't implemented for unequal allocation";
             
-        return new([1, 1], parameter)
+        return new(target, parameter)
     end
 end
 TBD(parameter::Int64) = TBD([1, 1], parameter)
