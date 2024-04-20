@@ -52,7 +52,7 @@ function simulate(rnd::DLUD, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
     prb = zeros(Float64, nsbj, ntrt, nsim)
 
     seed!(seed)
-    for s in 1:nsim
+    @showprogress for s in 1:nsim
         # numbers of subjects allocated to treatments (treatment numbers)
         N = zeros(Int64, ntrt)
 
@@ -63,9 +63,9 @@ function simulate(rnd::DLUD, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
             flag = true
             while flag
                 # sampling a ball from the urn
-                ball = sample(urn, weights(nballs))
+                ball = sample(urn, weights(nball))
                 if ball == 0
-                    nballs[2:end] += a .* w
+                    nball[2:end] += a .* w
                 else
                     # calculating probability of treatment assignment, 
                     # given the current state of the urn
