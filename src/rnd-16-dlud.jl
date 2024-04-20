@@ -39,7 +39,7 @@ function simulate(rnd::DLUD, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
     # target allocation
     w = rnd.target
 
-    # DLD parameter
+    # DLUD parameter
     a = rnd.parameter
 
     # getting number of treatments
