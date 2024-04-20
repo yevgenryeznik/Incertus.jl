@@ -230,7 +230,7 @@ function violin(final_imb::DataFrame; kwargs...)
 
     # making a plot
     violin_plot = @pipe final_imb |> 
-        stack(_, variable_name = :design) |>
+        stack(_, 1:ncol(_), variable_name = :design) |>
         groupby(_, :design) |>
         combine(_, :value => mean => :mean) |>
         transform(_, :design => x -> categorical(x, levels = designs) => :design) |>
