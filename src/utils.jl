@@ -32,7 +32,7 @@ julia> label(dlr_proc)
 """
 function label(rnd::Union{CompleteRandomization, RestrictedRandomization}) 
     procedure = "$(typeof(rnd))"
-    if procedure in ["CRD", "RAND","TBD"]
+    if procedure in ["CRD", "RAND","TBD", "TMD"]
         return procedure
     else
         fields = fieldnames(typeof(rnd)) 
