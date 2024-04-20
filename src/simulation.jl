@@ -32,7 +32,7 @@ function Base.show(io::IO, sr::SimulatedRandomization)
     prb = sr.prb
 
     println(io, "An output of the randomization procedure ($(label)) simulation (`trt`, `prb`)")
-    println(io, "--------------------------------------------------------")
+    println(io, "-----------------------------------------------------------------------------")
     println(io, "Simulated treatment assignments (`trt`):")
     display(trt)
     println(io, "Simulated allocation probabilities (`prb`):")
