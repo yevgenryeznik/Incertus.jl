@@ -114,6 +114,26 @@ using Incertus
 tbd = TBD(50)  # TBD, targeting 1:1 allocation, in a trial with 50 subjects
 ```
 
+
+## Truncated Multinomial Design (TMD)
+
+Treatment assignments are made according to CRD with probabilities ``P_k(j) = \rho_k``, ``j=1, 2, \ldots ``; ``k = 1, 2, \ldots, K``,  until one of the treatments (``k_1``) receives its quota of ``nw_{k_1}`` subjects. Next, the randomization process switches to the remaining ``K-1`` treatments with adjusted multinomial probabilities until some other treatment (``k_2``) receives its target quota of ``nw_{k_2}`` subjects, and so on, until only one incomplete treatment is left. The remaining subjects in the sequence are _deterministically_ assigned to this treatment. 
+
+For ``1:1`` target allocation, `TMD` is simular to `TBD`.
+
+```@docs
+TMD
+```
+
+```@repl
+using Incertus
+tmd = TMD(50)     # TMD, targeting 1:1 allocation, in a trial with 50 subjects
+
+w = [1, 2, 3, 4]
+rnd =  TMD(w, 50) # TMD, targeting allocation specified by w, in a trial with 50 subjects
+```
+
+
 ## Efron's Biased Coin Design (EBCD)
 
 At any allocation step, if treatment numbers ``N_1`` and ``N_2`` are balanced, the next assignment is made with probability 0.5; otherwise, the underrepresented treatment is assigned with probability ``p``, where ``0.5 \leq p \leq 1`` is a fixed and pre-specified parameter that determines the trade-off between balance and randomness.
@@ -391,6 +411,21 @@ maxent = MaxEnt(w, 0.5)  # MaxEnt, targeting 1:2:3:4 allocation (η=2)
 ```
 
 
+## Drop-the-Loser Urn Design (DLUD)
+
+
+```@docs
+DLUD
+```
+
+```@repl
+using Incertus
+dlud = DLUD(2)     # DLUD, targeting 1:1 allocation (a=2)
+
+w = [1, 2, 3, 4]   # target allocation ratio
+dlud = DLUD(w, 2)  # DLUD, targeting 1:2:3:4 allocation (a=2)
+```
+
 ## Funcions implemented to calculate allocation probabilities
 
 ```@docs
@@ -407,6 +442,10 @@ allocation_prb(::RAND, ::Vector{Int64})
 
 ```@docs
 allocation_prb(::TBD, ::Vector{Int64})
+```
+
+```@docs
+allocation_prb(::TMD, ::Vector{Int64})
 ```
 
 ```@docs

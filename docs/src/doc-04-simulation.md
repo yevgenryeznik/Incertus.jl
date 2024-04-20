@@ -11,5 +11,9 @@ simulate(rnd::T, nsbj::Int64, nsim::Int64, seed::Int64 = 314159) where T <: Rand
 ```
 
 ```@docs
+simulate(rnd::DLUD, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
+```
+
+```@docs
 simulate(rnd::Vector{<:Randomization}, nsbj::Int64, nsim::Int64, seed::Int64 = 314159)
 ```

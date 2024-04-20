@@ -9,6 +9,10 @@ plot(op::ARP; kwargs...)
 ```
 
 ```@docs
+plot(op::Vector{ARP}; kwargs...)
+```
+
+```@docs
 heatmap(brt::DataFrame; kwargs...)
 ```
 
