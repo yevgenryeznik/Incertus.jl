@@ -23,11 +23,11 @@ julia> w = [1, 2, 3, 4]
  3
  4
 
-julia> dlr_proc = DLR(w, 2)
-DLR(2): restricted randomization procedure, targeting 1:2:3:4 allocation in 4-arm trial.
+julia> dlud = DLUD(w, 2)
+DLUD(2): restricted randomization procedure, targeting 1:2:3:4 allocation in 4-arm trial.
 
-julia> label(dlr_proc)
-"DLR(2)"
+julia> label(dlud)
+"DLUD(2)"
 ```
 """
 function label(rnd::Union{CompleteRandomization, RestrictedRandomization}) 
