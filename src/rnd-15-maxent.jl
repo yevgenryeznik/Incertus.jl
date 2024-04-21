@@ -65,7 +65,7 @@ function allocation_prb(rnd::MaxEnt, N::Vector{Int64})
         end
         # setting and solving a nonlinear problem to find μ
         nlp = NonlinearProblem(f, 0, (B, ρ, η))
-        nlp_solution = solve(nlp)
+        nlp_solution = NonlinearSolve.solve(nlp)
         μ = nlp_solution.u
 
         p_num = ρ .* exp.(-μ .* B)
