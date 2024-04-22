@@ -69,47 +69,50 @@ brt = calc_brt(sr);
 
 
 # ========== Visualizing results ==========
+if !isdir("./figures01") # hide
+    mkdir("./figures01") # hide
+end                      # hide
 # making a violin plot of final imbalances 
 violin(final_imb)
-savefig("violinplot.png"); nothing #hide
+savefig("./figures01/01-final-imb-violin-plot.png"); nothing #hide
 
 # making a plot of the expected absolute imbalances 
 plot(expected_abs_imb, ylabel = "ecpexted absolute imbalance")
-savefig("expected_absolute_imb_plot.png"); nothing #hide
+savefig("./figures01/02-expected-absolute-imb-plot.png"); nothing #hide
 
 # making a plot of the variances of imbalance
 plot(variance_of_imb, ylabel = "variance of imbalance")
-savefig("variance_of_imb_plot.png"); nothing #hide
+savefig("./figures01/03-variance-of-imb-plot.png"); nothing #hide
 
 # making a plot of expected maximum absolute imbalances over first allocation steps
 plot(expected_max_abs_imb, ylabel = "expected maximum absolute imbalance")
-savefig("expected_max_abs_imb_plot.png"); nothing #hide
+savefig("./figures01/04-expected-max-abs-imb-plot.png"); nothing #hide
 
 # making a plot of cumulative average losses over the first allocation steps
 plot(cummean_loss, ylabel = "cumulative average loss")
-savefig("cummean_loss_plot.png"); nothing #hide
+savefig("./figures01/05-cummean-loss-plot.png"); nothing #hide
 
 # making a plot of cumulative averages of expected proportions of correct guesses over first allocation steps 
 # (under the convergence guessing strategy) 
 plot(cummean_epcg_c, ylabel = "cumulative average of EPCGs (CGS)")
-savefig("cummean_epcg_c_plot.png"); nothing #hide
+savefig("./figures01/06-cummean-epcg-c-plot.png"); nothing #hide
 
 # making a plot of cumulative averages of expected proportions of correct guesses over first allocation steps 
 # (under the maximum probability guessing strategy) 
 plot(cummean_epcg_mp, ylabel = "cumulative average of EPCGs (MPGS)")
-savefig("cummean_epcg_mp_plot.png"); nothing #hide
+savefig("./figures01/07-cummean-epcg-mp-plot.png"); nothing #hide
 
 # making a plot of cumulative averages of expected proportions of deterministic assignments over first alocation steps
 plot(cummean_pda, ylabel = "cumulative average of PDAs")
-savefig("cummean_pda_plot.png"); nothing #hide
+savefig("./figures01/08-cummean-pda-plot.png"); nothing #hide
 
 # making a plot of forcing indeces vs. allocation step 
 plot(fi, ylabel = "forcing index")
-savefig("fi_plot.png"); nothing #hide
+savefig("./figures01/09-fi-plot.png"); nothing #hide
 
 # making a plot of forcing indeces vs. allocation step 
 heatmap(brt)
-savefig("brt_heatmap_plot.png"); nothing #hide
+savefig("./figures01/10-brt-heatmap-plot.png"); nothing #hide
 
 ```
 
@@ -117,40 +120,40 @@ savefig("brt_heatmap_plot.png"); nothing #hide
 
 ### A _violin plot_ of the final imbalance after all treatment assignmnets complete
 
-![](violinplot.png)
+![](./figures01/01-final-imb-violin-plot.png)
 
 ### Expected absolute imbalance vs. allocation step
 
-![](expected_absolute_imb_plot.png)
+![](./figures01/02-expected-absolute-imb-plot.png)
 
 ### Variance of imbalance vs. allocation step
 
-![](variance_of_imb_plot.png)
+![](./figures01/03-variance-of-imb-plot.png)
 
 ### Expected maximum absolute imbalance over first allocation steps
 
-![](expected_max_abs_imb_plot.png)
+![](./figures01/04-expected-max-abs-imb-plot.png)
 
 ### Cumulative average loss over first allocation steps
 
-![](cummean_loss_plot.png)
+![](./figures01/05-cummean-loss-plot.png)
 
 ### Cumulative averages of expected proportions of correct guesses over first allocation steps (under the convergence guessing strategy) 
 
-![](cummean_epcg_c_plot.png)
+![](./figures01/06-cummean-epcg-c-plot.png)
 
 ### Cumulative averages of expected proportions of correct guesses over first allocation steps (under the maximum probability guessing strategy) 
 
-![](cummean_epcg_mp_plot.png)
+![](./figures01/07-cummean-epcg-mp-plot.png)
 
 ### Cumulative averages of expected proportions of deterministic assignments over first alocation steps
 
-![](cummean_pda_plot.png)
+![](./figures01/08-cummean-pda-plot.png)
 
 ### Forcing indeces vs. allocation step 
 
-![](fi_plot.png)
+![](./figures01/09-fi-plot.png)
 
 ### Balance-randomness tradeoff vs. allocation step 
 
-![](brt_heatmap_plot.png)
+![](./figures01/10-brt-heatmap-plot.png)
