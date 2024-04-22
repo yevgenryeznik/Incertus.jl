@@ -6,7 +6,6 @@ using DataFrames
 using Distributions
 using Latexify
 using Match
-using NonlinearSolve
 using Pipe
 using Plots
 using Printf
