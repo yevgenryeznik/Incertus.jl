@@ -63,10 +63,9 @@ function allocation_prb(rnd::MaxEnt, N::Vector{Int64})
             B, ρ, η = p
             return minimum(B)*η + (1-η)*sum(ρ.*B) - sum(B.*ρ.*exp.(-μ.*B))/sum(ρ.*exp.(-μ.*B))
         end
-        # setting and solving a nonlinear problem to find μ
-        nlp = NonlinearProblem(f, 0, (B, ρ, η))
-        nlp_solution = NonlinearSolve.solve(nlp)
-        μ = nlp_solution.u
+        # setting and solving a zero-fincding problem to find μ
+        zfp = ZeroProblem(x -> f(x, (B, ρ, η)), 0)
+        μ = solve(zfp)
 
         p_num = ρ .* exp.(-μ .* B)
         
