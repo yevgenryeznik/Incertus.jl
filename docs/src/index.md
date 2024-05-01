@@ -10,7 +10,8 @@ Pages = [
     "doc-04-simulation.md",
     "doc-05-op.md",
     "doc-06-visualization.md",
-    "doc-07-sim-example.md",
+    "doc-07-sim-example01.md",
+    "doc-07-sim-example02.md",
     "doc-08-auxiliary.md" 
 ]
 Depth = 3
