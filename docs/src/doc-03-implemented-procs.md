@@ -309,11 +309,11 @@ A special class of _biased coind designs_ (BCDs). At the ``j^\text{th}`` allocat
 0.5, & j = 1 \\
 1, & j = 2 \: \& \: N_1 = 0 \\
 0, & j = 2 \: \& \: N_1 = 1 \\
-\frac{\left(1 + \frac{N_2}{nN_1}\right)^\frac{1}{\gamma}}{\left(1 + \frac{N_2}{nN_1}\right)^\frac{1}{\gamma} + \left(1 + \frac{N_1}{nN_2}\right)^\frac{1}{\gamma}}, & j \geq 3 
+\frac{\left(1 + \frac{N_2}{(j-1)N_1}\right)^\frac{1}{\gamma}}{\left(1 + \frac{N_2}{(j-1)N_1}\right)^\frac{1}{\gamma} + \left(1 + \frac{N_1}{(j-1)N_2}\right)^\frac{1}{\gamma}}, & j \geq 3 
 \end{array}\right. ,\: j = 1, \ldots, n.
 ```
 
-where ``\gamma`` (``>0``) is a parameter of the procedure, and ``n`` is a sample size (pre-specified).
+where ``\gamma`` (``>0``) is a parameter of the procedure.
 
 ```@docs
 BBCD
@@ -321,7 +321,7 @@ BBCD
 
 ```@repl
 using Incertus
-bbcd = BBCD(0.1, 40) # BBCD, targeting 1:1 allocation (γ=2, n = 40)
+bbcd = BBCD(0.1) # BBCD, targeting 1:1 allocation (γ=0.1)
 ```
 
 
