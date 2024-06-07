@@ -6,7 +6,7 @@ Here, we simulate several randomization procedures, targeting 4:3:2:1 allocation
 
 The following procedures will be simulated:
 
-DLUD(a=2), and MWUD(\alpha=2)
+DLUD(``a=2``), and MWUD(``\alpha=2``)
 - Comletele Randomized Design (`CRD`).
 - Permuted Block Design with a block size equal to 2 (`PBD(1)`).
 - Block Urn Design with parameter ``\lambda=2`` (`BUD(2)`).
