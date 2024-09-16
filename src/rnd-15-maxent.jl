@@ -65,7 +65,7 @@ function allocation_prb(rnd::MaxEnt, N::Vector{Int64})
         end
         # setting and solving a zero-fincding problem to find μ
         zfp = ZeroProblem(x -> f(x, (B, ρ, η)), 0)
-        μ = solve(zfp)
+        μ = solve(zfp, atol = 1e-10)
 
         p_num = ρ .* exp.(-μ .* B)
         
