@@ -1,7 +1,5 @@
 # Incertus.jl
 
-# Incertus.jl
-
 > *"The Julia Lego Blocks for Randomized Clinical Trial Designs"*
 
 A `Julia` package to simulate randomization procedures for **two- and multi-arm clinical trials** targeting **equal or unequal allocation**. Incertus.jl generates treatment randomization sequences of a given length and evaluates the operating characteristics of any chosen procedure through Monte Carlo simulation — fast enough to use interactively, and open-ended enough to accommodate new designs.
